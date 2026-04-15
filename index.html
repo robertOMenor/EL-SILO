@@ -6,19 +6,6 @@
 <title>ESCAPE ROOM · CLIMA · EL SILO</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
-<audio id="bgMusic" loop>
-  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_7f6c3b7f1c.mp3" type="audio/mpeg">
-</audio>
-
-<script>
-  document.addEventListener("click", function() {
-    const music = document.getElementById("bgMusic");
-    if (music.paused) {
-      music.volume = 0.3; // volumen bajo
-      music.play();
-    }
-  }, { once: true });
-</script>
  <style>
   *{box-sizing:border-box;margin:0;padding:0;}
   :root{
@@ -145,9 +132,44 @@
     .pwd-area{flex-direction:column;}
     .pwd-input,.btn{width:100%;}
   }
+   .music-btn{
+  position:fixed;
+  top:14px;
+  right:14px;
+  z-index:10000;
+  background:rgba(8,12,10,0.92);
+  border:1px solid var(--amber-dim);
+  color:var(--amber);
+  font-family:'Share Tech Mono',monospace;
+  font-size:11px;
+  letter-spacing:0.18em;
+  padding:10px 14px;
+  cursor:pointer;
+  text-transform:uppercase;
+  border-radius:2px;
+  box-shadow:0 0 18px rgba(245,166,35,0.12);
+}
+
+.music-btn:hover{
+  background:rgba(245,166,35,0.08);
+  border-color:var(--amber);
+}
+
+.music-btn.on{
+  color:var(--green);
+  border-color:rgba(57,255,20,0.45);
+}
 </style>
 </head>
 <body>
+  <audio id="bgMusic" loop preload="auto">
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_7f6c3b7f1c.mp3" type="audio/mpeg">
+  Tu navegador no soporta audio HTML5.
+</audio>
+
+<button id="musicToggle" class="music-btn" type="button" aria-pressed="false">
+  ACTIVAR AUDIO
+</button>
 <div class="silo-app">
 
   <!-- HEADER -->
@@ -454,15 +476,65 @@
     h.classList.toggle('show');
   }
 
-  // Enter key support
   document.querySelectorAll('.pwd-input').forEach(function(inp){
     inp.addEventListener('keydown',function(e){
       if(e.key==='Enter'){
-        var n=inp.id.replace('inp','');
         var btns=inp.parentElement.querySelectorAll('.btn');
         if(btns.length)btns[0].click();
       }
     });
+  });
+
+  const music = document.getElementById('bgMusic');
+  const musicToggle = document.getElementById('musicToggle');
+
+  function setMusicButton(isPlaying){
+    if(isPlaying){
+      musicToggle.textContent = 'AUDIO ON';
+      musicToggle.classList.add('on');
+      musicToggle.setAttribute('aria-pressed', 'true');
+    } else {
+      musicToggle.textContent = 'ACTIVAR AUDIO';
+      musicToggle.classList.remove('on');
+      musicToggle.setAttribute('aria-pressed', 'false');
+    }
+  }
+
+  async function startMusic(){
+    try{
+      music.volume = 0.22;
+      await music.play();
+      setMusicButton(true);
+      localStorage.setItem('siloMusic', 'on');
+    }catch(e){
+      console.log('El navegador ha bloqueado el audio hasta que haya interacción directa.');
+    }
+  }
+
+  function stopMusic(){
+    music.pause();
+    setMusicButton(false);
+    localStorage.setItem('siloMusic', 'off');
+  }
+
+  musicToggle.addEventListener('click', async function(){
+    if(music.paused){
+      await startMusic();
+    }else{
+      stopMusic();
+    }
+  });
+
+  document.addEventListener('click', async function(e){
+    if(e.target.closest('iframe')) return;
+    if(localStorage.getItem('siloMusic') === 'off') return;
+    if(music.paused){
+      await startMusic();
+    }
+  }, { once:true });
+
+  window.addEventListener('load', function(){
+    setMusicButton(false);
   });
 </script>
 </body>
