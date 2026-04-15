@@ -6,6 +6,7 @@
 <title>ESCAPE ROOM · CLIMA · EL SILO</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<source src="musica.mp3" type="audio/mpeg">
  <style>
   *{box-sizing:border-box;margin:0;padding:0;}
   :root{
@@ -150,26 +151,39 @@
   box-shadow:0 0 18px rgba(245,166,35,0.12);
 }
 
-.music-btn:hover{
-  background:rgba(245,166,35,0.08);
-  border-color:var(--amber);
+.music-btn{
+  position:fixed;
+  top:14px;
+  right:14px;
+  z-index:10001;
+  background:rgba(8,12,10,0.95);
+  border:1px solid var(--amber-dim);
+  color:var(--amber);
+  font-family:'Share Tech Mono',monospace;
+  font-size:11px;
+  letter-spacing:.15em;
+  padding:10px 14px;
+  cursor:pointer;
 }
 
-.music-btn.on{
-  color:var(--green);
-  border-color:rgba(57,255,20,0.45);
+.audio-msg{
+  position:fixed;
+  top:52px;
+  right:14px;
+  z-index:10001;
+  max-width:260px;
+  font-size:11px;
+  color:var(--muted);
 }
 </style>
 </head>
 <body>
-  <audio id="bgMusic" loop preload="auto">
-  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_7f6c3b7f1c.mp3" type="audio/mpeg">
-  Tu navegador no soporta audio HTML5.
+<audio id="bgMusic" loop preload="auto">
+  <source src="musica.mp3" type="audio/mpeg">
 </audio>
 
-<button id="musicToggle" class="music-btn" type="button" aria-pressed="false">
-  ACTIVAR AUDIO
-</button>
+<button id="musicBtn" class="music-btn">ACTIVAR AUDIO</button>
+<div id="audioMsg" class="audio-msg"></div>
 <div class="silo-app">
 
   <!-- HEADER -->
@@ -535,6 +549,42 @@
 
   window.addEventListener('load', function(){
     setMusicButton(false);
+  });
+</script>
+ <script>
+  const bgMusic = document.getElementById('bgMusic');
+  const musicBtn = document.getElementById('musicBtn');
+  const audioMsg = document.getElementById('audioMsg');
+
+  bgMusic.volume = 0.18;
+
+  async function startMusic() {
+    try {
+      await bgMusic.play();
+      musicBtn.textContent = 'PAUSAR AUDIO';
+      audioMsg.textContent = 'Audio activado.';
+    } catch (err) {
+      audioMsg.textContent = 'El navegador ha bloqueado el audio. Pulsa otra vez el botón.';
+      console.error('Error al reproducir audio:', err);
+    }
+  }
+
+  function stopMusic() {
+    bgMusic.pause();
+    musicBtn.textContent = 'ACTIVAR AUDIO';
+    audioMsg.textContent = 'Audio pausado.';
+  }
+
+  musicBtn.addEventListener('click', async function () {
+    if (bgMusic.paused) {
+      await startMusic();
+    } else {
+      stopMusic();
+    }
+  });
+
+  bgMusic.addEventListener('error', function () {
+    audioMsg.textContent = 'No se ha podido cargar el archivo de audio.';
   });
 </script>
 </body>
