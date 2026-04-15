@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ESCAPE ROOM · CLIMA · EL SILO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  :root{
+    --amber:#f5a623;--amber-dim:#c07d10;--amber-dark:#7a4e06;
+    --green:#39ff14;--red:#ff3333;
+    --bg:#080c0a;--bg2:#0d1410;--bg3:#111a15;
+    --border:#1e3328;--text:#d4c89a;--muted:#6b7c69;
+    --shadow: 0 0 20px rgba(245,166,35,0.15);
+  }
+  html,body{background:var(--bg);color:var(--text);font-family:'Share Tech Mono',monospace;min-height:100vh;overflow-x:hidden;}
+
+  /* SCANLINES */
+  body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.15) 2px,rgba(0,0,0,0.15) 4px);pointer-events:none;z-index:9999;}
+
+  /* NOISE OVERLAY */
+  body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9998;opacity:0.3;}
+
+  .silo-app{max-width:860px;margin:0 auto;padding:20px 16px 60px;}
+
+  /* HEADER */
+  .silo-header{text-align:center;padding:40px 0 30px;position:relative;}
+  .silo-header::before{content:'';display:block;width:1px;height:60px;background:linear-gradient(to bottom,transparent,var(--amber));margin:0 auto 20px;}
+  .silo-logo{font-family:'Orbitron',sans-serif;font-size:11px;font-weight:400;letter-spacing:0.4em;color:var(--amber-dim);text-transform:uppercase;margin-bottom:8px;}
+  .silo-title{font-family:'Orbitron',sans-serif;font-size:clamp(22px,5vw,42px);font-weight:900;color:var(--amber);text-transform:uppercase;letter-spacing:0.08em;text-shadow:0 0 40px rgba(245,166,35,0.4);line-height:1.1;margin-bottom:6px;}
+  .silo-subtitle{font-size:12px;letter-spacing:0.3em;color:var(--muted);text-transform:uppercase;}
+  .silo-header::after{content:'';display:block;width:1px;height:40px;background:linear-gradient(to bottom,var(--amber),transparent);margin:20px auto 0;}
+
+  /* STATUS BAR */
+  .status-bar{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:2px;margin-bottom:30px;font-size:11px;letter-spacing:0.15em;}
+  .status-dot{width:7px;height:7px;border-radius:50%;background:var(--amber);display:inline-block;margin-right:8px;animation:blink 2s infinite;}
+  @keyframes blink{0%,100%{opacity:1;}50%{opacity:0.3;}}
+  .status-progress{display:flex;gap:6px;}
+  .prog-seg{width:40px;height:4px;background:var(--border);border-radius:1px;}
+  .prog-seg.done{background:var(--amber);}
+  .prog-seg.active{background:var(--amber);opacity:0.5;animation:pulse 1.5s infinite;}
+  @keyframes pulse{0%,100%{opacity:0.5;}50%{opacity:1;}}
+
+  /* SECTIONS */
+  .session{display:none;animation:fadeIn 0.6s ease;}
+  .session.active{display:block;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+  /* MISSION CARD */
+  .mission-card{background:var(--bg2);border:1px solid var(--border);border-radius:2px;padding:24px 28px;margin-bottom:20px;position:relative;overflow:hidden;}
+  .mission-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--amber);}
+  .mission-tag{font-size:10px;letter-spacing:0.35em;color:var(--amber-dim);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+  .mission-tag::after{content:'';flex:1;height:1px;background:var(--border);}
+  .mission-title{font-family:'Orbitron',sans-serif;font-size:18px;font-weight:700;color:var(--amber);margin-bottom:16px;letter-spacing:0.05em;}
+  .mission-text{font-size:13px;line-height:1.9;color:var(--text);margin-bottom:0;}
+  .mission-text strong{color:var(--amber);}
+
+  /* VIDEO FRAME */
+  .video-container{margin:20px 0;background:var(--bg3);border:1px solid var(--border);padding:4px;position:relative;}
+  .video-label{font-size:10px;letter-spacing:0.3em;color:var(--muted);padding:8px 12px;text-transform:uppercase;border-bottom:1px solid var(--border);}
+  .video-container iframe{width:100%;aspect-ratio:16/9;border:0;display:block;}
+
+  /* IMAGE BLOCK */
+  .img-block{margin:20px 0;background:var(--bg3);border:1px solid var(--border);overflow:hidden;}
+  .img-label{font-size:10px;letter-spacing:0.3em;color:var(--muted);padding:8px 12px;text-transform:uppercase;border-bottom:1px solid var(--border);}
+  .img-block img{width:100%;display:block;filter:sepia(40%) hue-rotate(30deg) brightness(0.85);}
+
+  /* CLUE BOX */
+  .clue-box{background:rgba(245,166,35,0.05);border:1px solid var(--amber-dark);border-radius:2px;padding:20px 24px;margin:20px 0;}
+  .clue-title{font-size:10px;letter-spacing:0.4em;color:var(--amber);text-transform:uppercase;margin-bottom:12px;}
+  .clue-text{font-size:13px;line-height:1.8;color:var(--text);}
+  .clue-highlight{color:var(--amber);font-weight:bold;}
+
+  /* DATA TABLE */
+  .data-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:12px;}
+  .data-table th{text-align:left;padding:8px 12px;color:var(--amber-dim);letter-spacing:0.15em;border-bottom:1px solid var(--border);font-weight:400;}
+  .data-table td{padding:8px 12px;border-bottom:1px solid rgba(30,51,40,0.5);color:var(--text);}
+  .data-table tr:hover td{background:rgba(245,166,35,0.03);}
+
+  /* PUZZLE SECTION */
+  .puzzle-section{background:var(--bg3);border:1px solid var(--border);padding:24px 28px;margin:20px 0;border-radius:2px;}
+  .puzzle-label{font-size:10px;letter-spacing:0.4em;color:var(--red);text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+  .puzzle-label::before{content:'';display:inline-block;width:6px;height:6px;background:var(--red);border-radius:50%;}
+  .puzzle-q{font-size:14px;line-height:1.8;color:var(--text);margin-bottom:20px;}
+
+  /* INPUT & BUTTON */
+  .pwd-area{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+  .pwd-input{background:var(--bg);border:1px solid var(--border);color:var(--amber);font-family:'Share Tech Mono',monospace;font-size:16px;letter-spacing:0.3em;padding:12px 16px;flex:1;min-width:180px;text-transform:uppercase;outline:none;border-radius:2px;transition:border-color 0.2s;}
+  .pwd-input:focus{border-color:var(--amber-dim);}
+  .pwd-input::placeholder{color:var(--border);letter-spacing:0.1em;}
+  .btn{background:transparent;border:1px solid var(--amber-dim);color:var(--amber);font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:0.25em;padding:12px 24px;cursor:pointer;text-transform:uppercase;border-radius:2px;transition:all 0.2s;}
+  .btn:hover{background:rgba(245,166,35,0.1);border-color:var(--amber);}
+  .btn:active{transform:scale(0.98);}
+  .btn-primary{border-color:var(--amber);background:rgba(245,166,35,0.08);}
+  .error-msg{color:var(--red);font-size:11px;letter-spacing:0.15em;margin-top:10px;display:none;}
+  .error-msg.show{display:block;animation:fadeIn 0.3s ease;}
+  .hint-toggle{background:none;border:none;color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:0.15em;cursor:pointer;padding:8px 0;text-decoration:underline;text-underline-offset:3px;}
+  .hint-text{display:none;margin-top:12px;font-size:12px;color:var(--muted);padding:12px;background:rgba(0,0,0,0.3);border-left:2px solid var(--muted);}
+  .hint-text.show{display:block;animation:fadeIn 0.3s ease;}
+
+  /* SUCCESS BANNER */
+  .success-banner{background:rgba(57,255,20,0.05);border:1px solid rgba(57,255,20,0.3);padding:16px 20px;margin:16px 0;display:none;border-radius:2px;}
+  .success-banner.show{display:flex;align-items:center;gap:12px;animation:fadeIn 0.4s ease;}
+  .success-icon{font-size:20px;}
+  .success-text{font-size:12px;color:var(--green);letter-spacing:0.15em;}
+
+  /* DIVIDER */
+  .divider{display:flex;align-items:center;gap:12px;margin:28px 0;font-size:10px;letter-spacing:0.3em;color:var(--muted);}
+  .divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border);}
+
+  /* FINAL SCREEN */
+  .final-screen{text-align:center;padding:60px 20px;}
+  .final-screen::before{content:'';display:block;width:80px;height:80px;border:2px solid var(--amber);border-radius:50%;margin:0 auto 30px;position:relative;}
+  .final-icon{font-size:48px;margin-bottom:20px;}
+  .final-title{font-family:'Orbitron',sans-serif;font-size:clamp(20px,4vw,32px);font-weight:900;color:var(--green);letter-spacing:0.1em;text-shadow:0 0 30px rgba(57,255,20,0.4);margin-bottom:16px;}
+  .final-text{font-size:13px;line-height:1.9;color:var(--text);max-width:600px;margin:0 auto 30px;}
+  .final-credits{font-size:11px;color:var(--muted);letter-spacing:0.2em;}
+  .certificate{background:var(--bg2);border:1px solid var(--amber-dark);padding:30px;max-width:480px;margin:30px auto;position:relative;}
+  .certificate::before,.certificate::after{content:'';position:absolute;width:20px;height:20px;border-color:var(--amber);border-style:solid;}
+  .certificate::before{top:8px;left:8px;border-width:2px 0 0 2px;}
+  .certificate::after{bottom:8px;right:8px;border-width:0 2px 2px 0;}
+  .cert-title{font-family:'Orbitron',sans-serif;font-size:14px;color:var(--amber);letter-spacing:0.2em;margin-bottom:8px;}
+  .cert-text{font-size:12px;color:var(--text);line-height:1.7;}
+  .cert-seal{width:50px;height:50px;border:2px solid var(--amber-dim);border-radius:50%;margin:16px auto 0;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-size:8px;color:var(--amber-dim);letter-spacing:0.15em;text-align:center;}
+
+  /* RESPONSIVE */
+  @media(max-width:540px){
+    .silo-title{font-size:26px;}
+    .mission-card,.puzzle-section{padding:18px 16px;}
+    .pwd-area{flex-direction:column;}
+    .pwd-input,.btn{width:100%;}
+  }
+</style>
+</head>
+<body>
+<div class="silo-app">
+
+  <!-- HEADER -->
+  <header class="silo-header">
+    <div class="silo-logo">Archivo Central · Sector Educativo · Nivel 47</div>
+    <div class="silo-title">ESCAPE ROOM<br>CLIMA</div>
+    <div class="silo-subtitle">Protocolo de Emergencia Climática — Serie El Silo</div>
+  </header>
+
+  <!-- STATUS BAR -->
+  <div class="status-bar" id="statusBar">
+    <div><span class="status-dot"></span><span id="statusText">SESIÓN 01 ACTIVA</span></div>
+    <div class="status-progress" id="statusProg">
+      <div class="prog-seg active" id="p0"></div>
+      <div class="prog-seg" id="p1"></div>
+      <div class="prog-seg" id="p2"></div>
+      <div class="prog-seg" id="p3"></div>
+    </div>
+  </div>
+
+  <!-- ══════════ SESIÓN 01 ══════════ -->
+  <div class="session active" id="s0">
+
+    <div class="mission-card">
+      <div class="mission-tag">Sesión 01 — El Despertar</div>
+      <div class="mission-title">TRANSMISIÓN DESDE EL SILO</div>
+      <div class="mission-text">
+        Han pasado generaciones desde que la humanidad descendió bajo tierra.<br><br>
+        El exterior es inhabitable. Los sensores del <strong>Nivel 47</strong> registran concentraciones anómalas en la atmósfera. Los ingenieros del Silo han encontrado en el Archivo un viejo manual sobre el <strong>clima de la superficie</strong>.<br><br>
+        Tú eres un <strong>Técnico Climático</strong>. Para acceder al archivo secreto debes demostrar que comprendes la causa de la catástrofe. El futuro del Silo depende de ti.
+      </div>
+    </div>
+
+    <!-- VIDEO 1 -->
+    <div class="video-container">
+      <div class="video-label">📡 Transmisión Recuperada — El Efecto Invernadero</div>
+      <iframe src="https://www.youtube.com/embed/SN5-DnOHQmE" title="Efecto invernadero" allowfullscreen loading="lazy"></iframe>
+    </div>
+
+    <div class="clue-box">
+      <div class="clue-title">🔍 Expediente 01-A · Datos Atmosféricos</div>
+      <div class="clue-text">
+        Los registros del Silo muestran que antes de la catástrofe, la atmósfera exterior contenía niveles crecientes de un <span class="clue-highlight">gas incoloro e inodoro</span> producido al quemar combustibles fósiles.<br><br>
+        Este gas es el principal <span class="clue-highlight">responsable del calentamiento global de origen humano</span>. Su fórmula química combina el símbolo del elemento más abundante en los seres vivos con el número <span class="clue-highlight">2</span>.
+        <br><br>
+        <table class="data-table">
+          <tr><th>GAS</th><th>FÓRMULA</th><th>ORIGEN PRINCIPAL</th></tr>
+          <tr><td>Dióxido de carbono</td><td>???</td><td>Combustibles fósiles</td></tr>
+          <tr><td>Metano</td><td>CH₄</td><td>Ganadería, vertederos</td></tr>
+          <tr><td>Vapor de agua</td><td>H₂O</td><td>Océanos</td></tr>
+          <tr><td>Óxido nitroso</td><td>N₂O</td><td>Fertilizantes</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="puzzle-section">
+      <div class="puzzle-label">Acertijo de Acceso · Nivel 1</div>
+      <div class="puzzle-q">
+        El técnico del Silo te pregunta:<br><br>
+        <em>«La molécula culpable está formada por un átomo de <strong>C</strong>arbono unido a dos átomos de <strong>O</strong>xígeno. Es el gas responsable del 64% del calentamiento global antropogénico. ¿Cuál es su fórmula química?»</em>
+      </div>
+      <div class="pwd-area">
+        <input class="pwd-input" type="text" id="inp0" placeholder="INTRODUCIR CÓDIGO..." maxlength="12">
+        <button class="btn btn-primary" onclick="check(0,'CO2','s1')">VERIFICAR →</button>
+      </div>
+      <div class="error-msg" id="err0">⚠ CÓDIGO INCORRECTO — ACCESO DENEGADO</div>
+      <button class="hint-toggle" onclick="toggleHint('h0')">▶ SOLICITAR PISTA</button>
+      <div class="hint-text" id="h0">Pista: El carbono es C, el oxígeno es O. El dióxido tiene el prefijo "di-" que significa DOS. Fórmula: C + O + O = C_2</div>
+      <div class="success-banner" id="ok0"><span class="success-icon">✓</span><span class="success-text">ACCESO CONCEDIDO — DESCARGANDO SESIÓN 02...</span></div>
+    </div>
+  </div>
+
+  <!-- ══════════ SESIÓN 02 ══════════ -->
+  <div class="session" id="s1">
+
+    <div class="mission-card">
+      <div class="mission-tag">Sesión 02 — Los Registros</div>
+      <div class="mission-title">ARCHIVOS HISTÓRICOS DEL CLIMA</div>
+      <div class="mission-text">
+        Buen trabajo. Has accedido al <strong>Archivo Nivel 2</strong>.<br><br>
+        Los historiadores del Silo necesitan saber cuándo comenzó exactamente la crisis climática. Los datos muestran que hubo un <strong>período clave en la historia humana</strong> en el que las emisiones de CO₂ dispararon. Sin identificarlo, no podemos comprender el error que destruyó la superficie.
+      </div>
+    </div>
+
+    <!-- VIDEO 2 -->
+    <div class="video-container">
+      <div class="video-label">📡 Transmisión Recuperada — Historia del Cambio Climático</div>
+      <iframe src="https://www.youtube.com/embed/ipVxxxqwBQw" title="Historia cambio climático" allowfullscreen loading="lazy"></iframe>
+    </div>
+
+    <!-- IMAGE -->
+    <div class="img-block">
+      <div class="img-label">📊 Gráfico Recuperado — Temperatura Global (últimos 1000 años)</div>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Common_Era_Temperature.svg/1200px-Common_Era_Temperature.svg.png" alt="Temperatura global histórica" loading="lazy">
+    </div>
+
+    <div class="clue-box">
+      <div class="clue-title">🔍 Expediente 02-B · El Gran Quiebre</div>
+      <div class="clue-text">
+        Los registros del Archivo revelan que hubo una época en que la humanidad cambió radicalmente su forma de obtener energía. Inventaron máquinas de vapor, comenzaron a quemar carbón a gran escala y transformaron la industria mundial.<br><br>
+        Este período se llama la <span class="clue-highlight">Revolución Industrial</span> y comenzó en <span class="clue-highlight">Gran Bretaña</span>.<br><br>
+        Desde entonces, las concentraciones de CO₂ han pasado de <span class="clue-highlight">280 ppm</span> a más de <span class="clue-highlight">420 ppm</span> en la actualidad.<br><br>
+        La palabra clave está oculta en la siguiente secuencia:<br>
+        <span class="clue-highlight">INDUSTRIA · VAPOR · CARBÓN · FÁBRICA · ________</span>
+      </div>
+    </div>
+
+    <div class="puzzle-section">
+      <div class="puzzle-label">Acertijo de Acceso · Nivel 2</div>
+      <div class="puzzle-q">
+        El archivero del Silo te desafía:<br><br>
+        <em>«El período que inició la crisis empezó con máquinas de vapor y carbón. Se llama Revolución ________.  Sin ella, el CO₂ atmosférico nunca habría superado el umbral crítico. ¿Cómo se llama ese período histórico? (UNA SOLA PALABRA)»</em>
+      </div>
+      <div class="pwd-area">
+        <input class="pwd-input" type="text" id="inp1" placeholder="INTRODUCIR CÓDIGO..." maxlength="15">
+        <button class="btn btn-primary" onclick="check(1,'INDUSTRIAL','s2')">VERIFICAR →</button>
+      </div>
+      <div class="error-msg" id="err1">⚠ CÓDIGO INCORRECTO — ACCESO DENEGADO</div>
+      <button class="hint-toggle" onclick="toggleHint('h1')">▶ SOLICITAR PISTA</button>
+      <div class="hint-text" id="h1">Pista: El nombre completo es "Revolución ___________". Comenzó en Reino Unido en el siglo XVIII con máquinas de vapor.</div>
+      <div class="success-banner" id="ok1"><span class="success-icon">✓</span><span class="success-text">ACCESO CONCEDIDO — DESCARGANDO SESIÓN 03...</span></div>
+    </div>
+  </div>
+
+  <!-- ══════════ SESIÓN 03 ══════════ -->
+  <div class="session" id="s2">
+
+    <div class="mission-card">
+      <div class="mission-tag">Sesión 03 — El Protocolo</div>
+      <div class="mission-title">LAS SOLUCIONES PERDIDAS</div>
+      <div class="mission-text">
+        Excelente, técnico. Ahora accedes a los <strong>Archivos Clasificados del Protocolo de Supervivencia</strong>.<br><br>
+        Los ingenieros del Silo han encontrado documentos que demuestran que la humanidad tuvo <strong>soluciones reales</strong> antes de la catástrofe. Energías que no emitían CO₂. Paneles, turbinas, átomos partidos...<br><br>
+        Para abrir el Protocolo Final debes demostrar que conoces las <strong>alternativas a los combustibles fósiles</strong>.
+      </div>
+    </div>
+
+    <!-- VIDEO 3 -->
+    <div class="video-container">
+      <div class="video-label">📡 Transmisión Recuperada — Energías Renovables</div>
+      <iframe src="https://www.youtube.com/embed/1kUE0BZtTRc" title="Energías renovables" allowfullscreen loading="lazy"></iframe>
+    </div>
+
+    <div class="clue-box">
+      <div class="clue-title">🔍 Expediente 03-C · Registro de Energías Alternativas</div>
+      <div class="clue-text">
+        El Archivo contiene cinco tipos de energía que los humanos de la superficie usaron (o intentaron usar) como alternativas:
+        <table class="data-table">
+          <tr><th>ENERGÍA</th><th>FUENTE</th><th>CO₂ EMITIDO</th></tr>
+          <tr><td>Solar fotovoltaica</td><td>Luz del sol</td><td>Casi cero</td></tr>
+          <tr><td>Eólica</td><td>Viento</td><td>Casi cero</td></tr>
+          <tr><td>Hidráulica</td><td>Agua en movimiento</td><td>Muy bajo</td></tr>
+          <tr><td>Nuclear</td><td>Fisión del átomo</td><td>Muy bajo</td></tr>
+          <tr><td>Carbón</td><td>Fósil</td><td>MUY ALTO ⚠</td></tr>
+        </table>
+        <br>
+        La energía que aprovecha la <span class="clue-highlight">luz directa del astro rey</span> convirtiendo fotones en electricidad mediante células de silicio se llama energía <span class="clue-highlight">SOLAR</span>.
+      </div>
+    </div>
+
+    <div class="puzzle-section">
+      <div class="puzzle-label">Acertijo de Acceso · Nivel 3</div>
+      <div class="puzzle-q">
+        La IA del Silo te interroga:<br><br>
+        <em>«Los paneles que cubren los tejados captando fotones del astro rey para convertirlos en electricidad limpia pertenecen a la energía ________.»<br><br>
+        Además: el acuerdo climático internacional firmado en la capital de Francia en el año 2015, donde los países se comprometieron a no superar 1,5°C de calentamiento, ¿en qué ciudad se firmó?<br><br>
+        <strong>La contraseña es el nombre de esa ciudad francesa.</strong></em>
+      </div>
+      <div class="pwd-area">
+        <input class="pwd-input" type="text" id="inp2" placeholder="INTRODUCIR CÓDIGO..." maxlength="10">
+        <button class="btn btn-primary" onclick="check(2,'PARIS','s3')">VERIFICAR →</button>
+      </div>
+      <div class="error-msg" id="err2">⚠ CÓDIGO INCORRECTO — ACCESO DENEGADO</div>
+      <button class="hint-toggle" onclick="toggleHint('h2')">▶ SOLICITAR PISTA</button>
+      <div class="hint-text" id="h2">Pista: En 2015, casi todos los países del mundo firmaron un acuerdo climático histórico. La ciudad donde se firmó es también la capital de Francia y la ciudad de la Torre Eiffel.</div>
+      <div class="success-banner" id="ok2"><span class="success-icon">✓</span><span class="success-text">ACCESO CONCEDIDO — INICIANDO PROTOCOLO FINAL...</span></div>
+    </div>
+  </div>
+
+  <!-- ══════════ SESIÓN 04 · FINAL ══════════ -->
+  <div class="session" id="s3">
+
+    <div class="mission-card">
+      <div class="mission-tag">Sesión 04 — La Superficie</div>
+      <div class="mission-title">EL ÚLTIMO CANDADO</div>
+      <div class="mission-text">
+        Técnico, has llegado al <strong>corazón del Archivo</strong>. Un último enigma protege el código de apertura de las compuertas del Silo.<br><br>
+        Los ingenieros necesitan saber si la humanidad puede volver a la superficie. Los sensores muestran que si aplicamos todas las soluciones climáticas conocidas, la Tierra podría recuperarse.<br><br>
+        ¿Recuerdas todo lo aprendido?
+      </div>
+    </div>
+
+    <!-- VIDEO 4 -->
+    <div class="video-container">
+      <div class="video-label">📡 Transmisión Final — ¿Qué podemos hacer?</div>
+      <iframe src="https://www.youtube.com/embed/wbR-5mHI6bo" title="Soluciones cambio climático" allowfullscreen loading="lazy"></iframe>
+    </div>
+
+    <div class="clue-box">
+      <div class="clue-title">🔍 Expediente 04-D · El Código de la Esperanza</div>
+      <div class="clue-text">
+        El código final está formado por <span class="clue-highlight">4 letras</span>. Para encontrarlo debes responder:<br><br>
+        1. El planeta que habitamos (en mayúsculas): <strong>TIERRA</strong><br>
+        2. De esa palabra, toma la <span class="clue-highlight">primera letra</span> y la <span class="clue-highlight">última letra</span>: <strong>T _ _ _ _ A</strong><br>
+        3. Añade las iniciales de los dos acuerdos: el de <span class="clue-highlight">Kioto</span> (K) y el de <span class="clue-highlight">París</span> (P)<br>
+        4. El código es: <span class="clue-highlight">T + A + K + P = ????</span><br><br>
+        <em>Ordénalos formando una palabra con sentido...</em><br>
+        Pista extra: Es lo que todos hacemos cuando el clima cambia: nos <span class="clue-highlight">ADAPT</span>amos. (Son 4 letras de ADAPTAR)
+      </div>
+    </div>
+
+    <div class="puzzle-section">
+      <div class="puzzle-label">Acertijo Final — Acceso a la Superficie</div>
+      <div class="puzzle-q">
+        La voz del Silo te habla por última vez:<br><br>
+        <em>«La clave para sobrevivir al cambio climático no es solo reducir emisiones. También debemos ________ nuestras ciudades, cultivos y estilos de vida a la nueva realidad climática. Esta es la otra gran estrategia climática, junto a la mitigación. ¿Cómo se llama? (Una sola palabra de 9 letras)»</em>
+      </div>
+      <div class="pwd-area">
+        <input class="pwd-input" type="text" id="inp3" placeholder="INTRODUCIR CÓDIGO..." maxlength="15">
+        <button class="btn btn-primary" onclick="check(3,'ADAPTACION','final')">VERIFICAR →</button>
+      </div>
+      <div class="error-msg" id="err3">⚠ CÓDIGO INCORRECTO — ACCESO DENEGADO</div>
+      <button class="hint-toggle" onclick="toggleHint('h3')">▶ SOLICITAR PISTA</button>
+      <div class="hint-text" id="h3">Pista: Junto a la "mitigación" (reducir emisiones), la otra gran estrategia climática es la "___________" (modificar nuestros sistemas para vivir con el clima cambiado). Piensa en ADAPTAR → sustantivo.</div>
+      <div class="success-banner" id="ok3"><span class="success-icon">✓</span><span class="success-text">PROTOCOLO COMPLETADO — ABRIENDO COMPUERTAS...</span></div>
+    </div>
+  </div>
+
+  <!-- ══════════ PANTALLA FINAL ══════════ -->
+  <div class="session" id="sfinal">
+    <div class="final-screen">
+      <div class="final-icon">🌍</div>
+      <div class="final-title">MISIÓN COMPLETADA</div>
+      <div class="final-text">
+        Has demostrado que comprendes el cambio climático.<br>
+        Las compuertas del Silo se abren. La superficie aguarda.<br><br>
+        El conocimiento es la única forma de salvar nuestro planeta.
+        Igual que los habitantes del Silo necesitaban comprender el mundo exterior para sobrevivir, nosotros necesitamos comprender el clima para proteger el nuestro.
+      </div>
+
+      <div class="certificate">
+        <div class="cert-title">▸ CERTIFICADO DE TÉCNICO CLIMÁTICO ◂</div>
+        <div class="cert-text">
+          Has superado con éxito el Protocolo de Emergencia Climática del Silo.<br><br>
+          Conceptos dominados: Efecto invernadero · CO₂ · Revolución Industrial · Energías renovables · Acuerdo de París · Mitigación · Adaptación
+        </div>
+        <div class="cert-seal">SILO<br>CERT</div>
+      </div>
+
+      <div class="divider">FIN DE TRANSMISIÓN</div>
+      <div class="final-credits">ESCAPE ROOM CLIMA · BASADO EN EL LIBRO "CLIMA" · INSPIRADO EN LA SERIE EL SILO</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  var answers={0:'CO2',1:'INDUSTRIAL',2:'PARIS',3:'ADAPTACION'};
+  var sessions=['s0','s1','s2','s3','sfinal'];
+  var current=0;
+
+  function normalize(s){return s.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();}
+
+  function check(idx,correct,next){
+    var inp=document.getElementById('inp'+idx);
+    var val=normalize(inp.value);
+    var ok=document.getElementById('ok'+idx);
+    var err=document.getElementById('err'+idx);
+    if(val===normalize(correct)){
+      ok.classList.add('show');
+      err.classList.remove('show');
+      inp.style.borderColor='#39ff14';
+      inp.disabled=true;
+      setTimeout(function(){goTo(next);},1800);
+    } else {
+      err.classList.add('show');
+      inp.style.borderColor='#ff3333';
+      inp.style.animation='shake 0.3s ease';
+      setTimeout(function(){inp.style.animation='';inp.style.borderColor='';},400);
+    }
+  }
+
+  function goTo(id){
+    document.querySelectorAll('.session').forEach(function(s){s.classList.remove('active');});
+    document.getElementById(id).classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+    updateStatus(id);
+  }
+
+  function updateStatus(id){
+    var labels=['SESIÓN 01 ACTIVA','SESIÓN 02 ACTIVA','SESIÓN 03 ACTIVA','SESIÓN 04 ACTIVA','MISIÓN COMPLETADA'];
+    var idx={'s0':0,'s1':1,'s2':2,'s3':3,'sfinal':4}[id]||0;
+    document.getElementById('statusText').textContent=labels[idx]||'';
+    for(var i=0;i<4;i++){
+      var seg=document.getElementById('p'+i);
+      if(i<idx){seg.className='prog-seg done';}
+      else if(i===idx){seg.className='prog-seg active';}
+      else{seg.className='prog-seg';}
+    }
+  }
+
+  function toggleHint(id){
+    var h=document.getElementById(id);
+    h.classList.toggle('show');
+  }
+
+  // Enter key support
+  document.querySelectorAll('.pwd-input').forEach(function(inp){
+    inp.addEventListener('keydown',function(e){
+      if(e.key==='Enter'){
+        var n=inp.id.replace('inp','');
+        var btns=inp.parentElement.querySelectorAll('.btn');
+        if(btns.length)btns[0].click();
+      }
+    });
+  });
+</script>
+</body>
+</html>
