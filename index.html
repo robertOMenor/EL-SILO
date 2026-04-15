@@ -6,7 +6,20 @@
 <title>ESCAPE ROOM · CLIMA · EL SILO</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
-<style>
+<audio id="bgMusic" loop>
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_7f6c3b7f1c.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  document.addEventListener("click", function() {
+    const music = document.getElementById("bgMusic");
+    if (music.paused) {
+      music.volume = 0.3; // volumen bajo
+      music.play();
+    }
+  }, { once: true });
+</script>
+ <style>
   *{box-sizing:border-box;margin:0;padding:0;}
   :root{
     --amber:#f5a623;--amber-dim:#c07d10;--amber-dark:#7a4e06;
