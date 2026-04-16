@@ -8,53 +8,355 @@
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--amber:#f5a623;--amber-dim:#c07d10;--amber-dark:#7a4e06;--green:#39ff14;--red:#ff4444;--blue:#4fc3f7;--bg:#050806;--bg2:#0b110d;--bg3:#101812;--bg4:#0f1711;--border:#1f3328;--border2:#2b4839;--text:#d5ca9f;--text2:#bdb087;--muted:#6f806d;--shadow:0 0 24px rgba(245,166,35,.18);--glow:0 0 40px rgba(245,166,35,.30)}
+:root{
+  --amber:#f5a623;--amber-dim:#c07d10;--amber-dark:#7a4e06;
+  --green:#39ff14;--red:#ff4444;--blue:#4fc3f7;
+  --bg:#050806;--bg2:#0b110d;--bg3:#101812;--bg4:#0f1711;
+  --border:#1f3328;--border2:#2b4839;
+  --text:#d5ca9f;--text2:#bdb087;--muted:#6f806d;
+  --shadow:0 0 24px rgba(245,166,35,.18);
+  --glow:0 0 40px rgba(245,166,35,.30)
+}
 html,body{background:var(--bg);color:var(--text);font-family:'Share Tech Mono',monospace;min-height:100vh;overflow-x:hidden;font-size:16px}
 body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.09) 3px,rgba(0,0,0,.09) 4px);pointer-events:none;z-index:9999}
 body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at center,transparent 56%,rgba(0,0,0,.58) 100%);pointer-events:none;z-index:9998}
-.silo-app{max-width:980px;margin:0 auto;padding:26px 18px 100px}.silo-header{text-align:center;padding:48px 0 34px;position:relative}.header-line-top,.header-line-bot{display:block;width:1px;margin:0 auto;background:linear-gradient(to bottom,transparent,var(--amber))}.header-line-top{height:68px;margin-bottom:22px}.header-line-bot{height:48px;margin-top:22px;background:linear-gradient(to bottom,var(--amber),transparent)}.silo-logo{font-family:'Orbitron',sans-serif;font-size:12px;letter-spacing:.45em;color:var(--amber-dim);text-transform:uppercase;margin-bottom:10px}.silo-title{font-family:'Orbitron',sans-serif;font-size:clamp(30px,6vw,58px);font-weight:900;color:var(--amber);letter-spacing:.08em;text-transform:uppercase;line-height:1.05;text-shadow:var(--glow)}.silo-subtitle{font-size:14px;letter-spacing:.28em;color:var(--muted);text-transform:uppercase;margin-top:8px}.header-corners{display:inline-block;position:relative;padding:0 34px}.header-corners::before,.header-corners::after{content:'';position:absolute;top:0;width:18px;height:18px;border-color:var(--amber-dim);border-style:solid}.header-corners::before{left:0;border-width:2px 0 0 2px}.header-corners::after{right:0;border-width:2px 2px 0 0}
-.status-bar{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:var(--bg2);border:1px solid var(--border);margin-bottom:26px;gap:10px;flex-wrap:wrap}.status-left{display:flex;align-items:center;gap:8px;font-size:13px;letter-spacing:.14em}.status-dot{width:8px;height:8px;border-radius:50%;background:var(--amber);display:inline-block;animation:blink 2s infinite}@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}.status-progress{display:flex;gap:6px;align-items:center;flex-wrap:wrap}.prog-seg{width:34px;height:5px;background:var(--border);border-radius:1px;transition:all .3s}.prog-seg.done{background:var(--amber)}.prog-seg.active{background:var(--amber);opacity:.6;animation:pulse 1.5s infinite}@keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}.prog-label{font-size:11px;color:var(--muted);letter-spacing:.12em}
-.dashboard{display:grid;grid-template-columns:1.2fr .8fr;gap:16px;margin-bottom:24px}.panel{background:var(--bg2);border:1px solid var(--border);padding:18px 20px}.panel-title{font-size:11px;color:var(--amber-dim);letter-spacing:.35em;text-transform:uppercase;margin-bottom:12px}.panel p,.panel li{font-size:14px;line-height:1.8;color:var(--text2)}.panel ul{padding-left:20px}.panel strong{color:var(--amber)}.meter{height:12px;border:1px solid var(--border2);background:var(--bg);margin-top:12px;position:relative}.meter-fill{height:100%;width:0;background:linear-gradient(90deg,var(--amber),var(--blue));transition:width .3s}.score-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.score-box{border:1px solid var(--border);padding:12px;background:var(--bg4)}.score-num{font-family:'Orbitron',sans-serif;color:var(--amber);font-size:22px}.score-label{font-size:11px;color:var(--muted);letter-spacing:.15em;line-height:1.5}
-.session{display:none;animation:fadeIn .7s ease}.session.active{display:block}@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}.mission-card,.puzzle-section{background:var(--bg2);border:1px solid var(--border);padding:28px 30px;margin-bottom:20px;position:relative}.mission-card::before,.puzzle-section::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:linear-gradient(to bottom,var(--amber),var(--amber-dark))}.mission-number{font-family:'Orbitron',sans-serif;font-size:54px;color:rgba(245,166,35,.06);position:absolute;right:24px;top:14px;line-height:1}.mission-tag{font-size:11px;letter-spacing:.4em;color:var(--amber-dim);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:10px}.mission-tag::after{content:'';flex:1;height:1px;background:var(--border)}.mission-title{font-family:'Orbitron',sans-serif;font-size:20px;color:var(--amber);margin-bottom:18px;letter-spacing:.05em}.mission-text{font-size:15px;line-height:1.95;color:var(--text2)}.mission-text strong{color:var(--amber)}
-.video-container{margin:20px 0;background:var(--bg3);border:1px solid var(--border);padding:5px}.video-label{font-size:11px;letter-spacing:.3em;color:var(--muted);padding:10px 14px;text-transform:uppercase;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}.video-rec{width:8px;height:8px;border-radius:50%;background:var(--red);animation:blink 1s infinite}.video-container iframe{width:100%;aspect-ratio:16/9;border:0;display:block}
-.concept-box{background:var(--bg4);border-left:3px solid var(--blue);padding:18px 22px;margin:18px 0;font-size:15px;line-height:1.9;color:var(--text2)}.concept-box strong{color:var(--blue)}.clue-box{background:rgba(245,166,35,.04);border:1px solid var(--amber-dark);padding:24px 28px;margin:20px 0;position:relative}.clue-box::before{content:'EXPEDIENTE CLASIFICADO';position:absolute;top:-1px;right:18px;font-size:9px;letter-spacing:.35em;color:var(--amber-dark);background:var(--bg);padding:0 8px}.clue-title{font-size:11px;letter-spacing:.4em;color:var(--amber);text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:8px}.clue-title::after{content:'';flex:1;height:1px;background:var(--amber-dark)}.clue-text{font-size:15px;line-height:1.9;color:var(--text2)}.clue-highlight{color:var(--amber);font-weight:700}
-.data-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}.data-table th{text-align:left;padding:10px 14px;color:var(--amber-dim);letter-spacing:.14em;border-bottom:2px solid var(--border2);font-weight:400;font-size:12px}.data-table td{padding:10px 14px;border-bottom:1px solid rgba(31,51,40,.7);color:var(--text)}.data-table tr:hover td{background:rgba(245,166,35,.04)}
-.challenge-box{background:rgba(79,195,247,.05);border:1px solid rgba(79,195,247,.35);padding:18px 20px;margin:18px 0}.challenge-box h4{font-size:12px;color:var(--blue);letter-spacing:.22em;text-transform:uppercase;margin-bottom:10px}.challenge-box p,.challenge-box li{font-size:14px;line-height:1.85;color:var(--text2)}.challenge-box ul{padding-left:20px}
-.puzzle-label{font-size:11px;letter-spacing:.4em;color:var(--red);text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:10px}.puzzle-label::before{content:'';display:inline-block;width:7px;height:7px;background:var(--red);border-radius:50%;animation:blink 1.2s infinite}.puzzle-q{font-size:15px;line-height:1.95;color:var(--text);margin-bottom:22px}.puzzle-q strong{color:var(--amber)}.pwd-area{display:flex;gap:12px;flex-wrap:wrap;align-items:stretch}.pwd-input{background:var(--bg);border:1px solid var(--border2);color:var(--amber);font-family:'Share Tech Mono',monospace;font-size:18px;letter-spacing:.25em;padding:14px 18px;flex:1;min-width:220px;text-transform:uppercase;outline:none}.pwd-input:focus{border-color:var(--amber-dim);box-shadow:0 0 12px rgba(245,166,35,.15)}.btn{background:transparent;border:1px solid var(--amber-dim);color:var(--amber);font-family:'Share Tech Mono',monospace;font-size:13px;letter-spacing:.22em;padding:14px 24px;cursor:pointer;text-transform:uppercase;transition:all .2s;white-space:nowrap}.btn:hover{background:rgba(245,166,35,.11);border-color:var(--amber);box-shadow:var(--shadow)}.btn-primary{border-color:var(--amber);background:rgba(245,166,35,.07)}.error-msg{color:var(--red);font-size:13px;letter-spacing:.12em;margin-top:12px;display:none;padding:10px 14px;background:rgba(255,68,68,.06);border-left:2px solid var(--red)}.error-msg.show{display:block;animation:fadeIn .3s}.hint-toggle{background:none;border:none;color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:.14em;cursor:pointer;padding:10px 0;text-decoration:underline;text-underline-offset:4px;display:block;margin-top:10px}.hint-text{display:none;margin-top:12px;font-size:14px;color:var(--muted);padding:14px 18px;background:rgba(0,0,0,.35);border-left:2px solid var(--muted);line-height:1.8}.hint-text.show{display:block;animation:fadeIn .3s}.success-banner{background:rgba(57,255,20,.05);border:1px solid rgba(57,255,20,.3);padding:18px 22px;margin:18px 0;display:none;align-items:center;gap:14px}.success-banner.show{display:flex;animation:fadeIn .4s}.success-text{font-size:13px;color:var(--green);letter-spacing:.12em;line-height:1.6}
-.audio-controls{position:fixed;top:14px;right:14px;z-index:10000;display:flex;flex-direction:column;gap:6px;align-items:flex-end}.music-btn{background:rgba(5,8,6,.95);border:1px solid var(--amber-dim);color:var(--amber);font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:.18em;padding:11px 16px;cursor:pointer;text-transform:uppercase;box-shadow:0 0 18px rgba(245,166,35,.1)}.music-btn:hover{background:rgba(245,166,35,.1)}.music-btn.on{border-color:var(--green);color:var(--green)}.audio-msg{max-width:300px;font-size:11px;color:var(--muted);letter-spacing:.06em;line-height:1.6;text-align:right}
-.final-screen{text-align:center;padding:60px 20px}.final-title{font-family:'Orbitron',sans-serif;font-size:clamp(24px,5vw,38px);font-weight:900;color:var(--green);letter-spacing:.1em;text-shadow:0 0 40px rgba(57,255,20,.5);margin-bottom:18px}.final-text{font-size:16px;line-height:2;color:var(--text2);max-width:700px;margin:0 auto 30px}.certificate{background:var(--bg2);border:1px solid var(--amber-dark);padding:34px;max-width:560px;margin:30px auto;position:relative}.certificate::before,.certificate::after{content:'';position:absolute;width:22px;height:22px;border-color:var(--amber);border-style:solid}.certificate::before{top:10px;left:10px;border-width:2px 0 0 2px}.certificate::after{bottom:10px;right:10px;border-width:0 2px 2px 0}.cert-title{font-family:'Orbitron',sans-serif;font-size:15px;color:var(--amber);letter-spacing:.18em;margin-bottom:10px}.cert-text{font-size:14px;color:var(--text);line-height:1.85}.badge-row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:18px}.cert-badge{font-size:11px;letter-spacing:.1em;color:var(--amber-dim);border:1px solid var(--amber-dark);padding:5px 10px}.divider{display:flex;align-items:center;gap:14px;margin:30px 0;font-size:11px;letter-spacing:.3em;color:var(--muted)}.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}@media(max-width:760px){.dashboard{grid-template-columns:1fr}.mission-card,.puzzle-section{padding:22px 18px}.pwd-area{flex-direction:column}.pwd-input,.btn{width:100%}}
+.silo-app{max-width:980px;margin:0 auto;padding:26px 18px 100px}
+.silo-header{text-align:center;padding:48px 0 34px;position:relative}
+.header-line-top,.header-line-bot{display:block;width:1px;margin:0 auto;background:linear-gradient(to bottom,transparent,var(--amber))}
+.header-line-top{height:68px;margin-bottom:22px}
+.header-line-bot{height:48px;margin-top:22px;background:linear-gradient(to bottom,var(--amber),transparent)}
+.silo-logo{font-family:'Orbitron',sans-serif;font-size:12px;letter-spacing:.45em;color:var(--amber-dim);text-transform:uppercase;margin-bottom:10px}
+.silo-title{font-family:'Orbitron',sans-serif;font-size:clamp(30px,6vw,58px);font-weight:900;color:var(--amber);letter-spacing:.08em;text-transform:uppercase;line-height:1.05;text-shadow:var(--glow)}
+.silo-subtitle{font-size:14px;letter-spacing:.28em;color:var(--muted);text-transform:uppercase;margin-top:8px}
+.header-corners{display:inline-block;position:relative;padding:0 34px}
+.header-corners::before,.header-corners::after{content:'';position:absolute;top:0;width:18px;height:18px;border-color:var(--amber-dim);border-style:solid}
+.header-corners::before{left:0;border-width:2px 0 0 2px}
+.header-corners::after{right:0;border-width:2px 2px 0 0}
+.status-bar{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:var(--bg2);border:1px solid var(--border);margin-bottom:26px;gap:10px;flex-wrap:wrap}
+.status-left{display:flex;align-items:center;gap:8px;font-size:13px;letter-spacing:.14em}
+.status-dot{width:8px;height:8px;border-radius:50%;background:var(--amber);display:inline-block;animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.status-progress{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.prog-seg{width:34px;height:5px;background:var(--border);border-radius:1px;transition:all .3s}
+.prog-seg.done{background:var(--amber)}
+.prog-seg.active{background:var(--amber);opacity:.6;animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
+.prog-label{font-size:11px;color:var(--muted);letter-spacing:.12em}
+.dashboard{display:grid;grid-template-columns:1.2fr .8fr;gap:16px;margin-bottom:24px}
+.panel{background:var(--bg2);border:1px solid var(--border);padding:18px 20px}
+.panel-title{font-size:11px;color:var(--amber-dim);letter-spacing:.35em;text-transform:uppercase;margin-bottom:12px}
+.panel p,.panel li{font-size:14px;line-height:1.8;color:var(--text2)}
+.panel ul{padding-left:20px}
+.panel strong{color:var(--amber)}
+.meter{height:12px;border:1px solid var(--border2);background:var(--bg);margin-top:12px;position:relative}
+.meter-fill{height:100%;width:0;background:linear-gradient(90deg,var(--amber),var(--blue));transition:width .3s}
+.score-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.score-box{border:1px solid var(--border);padding:12px;background:var(--bg4)}
+.score-num{font-family:'Orbitron',sans-serif;color:var(--amber);font-size:22px}
+.score-label{font-size:11px;color:var(--muted);letter-spacing:.15em;line-height:1.5}
+.session{display:none;animation:fadeIn .7s ease}
+.session.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.mission-card,.puzzle-section,.resource-card,.teacher-box{background:var(--bg2);border:1px solid var(--border);padding:28px 30px;margin-bottom:20px;position:relative}
+.mission-card::before,.puzzle-section::before,.resource-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:linear-gradient(to bottom,var(--amber),var(--amber-dark))}
+.mission-number{font-family:'Orbitron',sans-serif;font-size:54px;color:rgba(245,166,35,.06);position:absolute;right:24px;top:14px;line-height:1}
+.mission-tag,.resource-tag{font-size:11px;letter-spacing:.4em;color:var(--amber-dim);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.mission-tag::after,.resource-tag::after{content:'';flex:1;height:1px;background:var(--border)}
+.mission-title,.resource-title{font-family:'Orbitron',sans-serif;font-size:20px;color:var(--amber);margin-bottom:18px;letter-spacing:.05em}
+.mission-text,.resource-text{font-size:15px;line-height:1.95;color:var(--text2)}
+.mission-text strong,.resource-text strong{color:var(--amber)}
+.video-container,.img-block{margin:20px 0;background:var(--bg3);border:1px solid var(--border);padding:5px}
+.video-label,.img-label{font-size:11px;letter-spacing:.3em;color:var(--muted);padding:10px 14px;text-transform:uppercase;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
+.video-rec{width:8px;height:8px;border-radius:50%;background:var(--red);animation:blink 1s infinite}
+.video-container iframe{width:100%;aspect-ratio:16/9;border:0;display:block}
+.img-block img{width:100%;display:block;filter:sepia(28%) hue-rotate(25deg) brightness(.85)}
+.concept-box{background:var(--bg4);border-left:3px solid var(--blue);padding:18px 22px;margin:18px 0;font-size:15px;line-height:1.9;color:var(--text2)}
+.concept-box strong{color:var(--blue)}
+.clue-box{background:rgba(245,166,35,.04);border:1px solid var(--amber-dark);padding:24px 28px;margin:20px 0;position:relative}
+.clue-box::before{content:'EXPEDIENTE CLASIFICADO';position:absolute;top:-1px;right:18px;font-size:9px;letter-spacing:.35em;color:var(--amber-dark);background:var(--bg);padding:0 8px}
+.clue-title{font-size:11px;letter-spacing:.4em;color:var(--amber);text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.clue-title::after{content:'';flex:1;height:1px;background:var(--amber-dark)}
+.clue-text{font-size:15px;line-height:1.9;color:var(--text2)}
+.clue-highlight{color:var(--amber);font-weight:700}
+.data-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
+.data-table th{text-align:left;padding:10px 14px;color:var(--amber-dim);letter-spacing:.14em;border-bottom:2px solid var(--border2);font-weight:400;font-size:12px}
+.data-table td{padding:10px 14px;border-bottom:1px solid rgba(31,51,40,.7);color:var(--text)}
+.data-table tr:hover td{background:rgba(245,166,35,.04)}
+.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin:18px 0}
+.info-card{background:var(--bg4);border:1px solid var(--border);padding:18px;text-align:center}
+.info-card-icon{font-size:26px;margin-bottom:10px}
+.info-card-value{font-family:'Orbitron',sans-serif;font-size:20px;color:var(--amber);margin-bottom:8px}
+.info-card-label{font-size:12px;color:var(--muted);letter-spacing:.12em;line-height:1.6}
+.challenge-box{background:rgba(79,195,247,.05);border:1px solid rgba(79,195,247,.35);padding:18px 20px;margin:18px 0}
+.challenge-box h4{font-size:12px;color:var(--blue);letter-spacing:.22em;text-transform:uppercase;margin-bottom:10px}
+.challenge-box p,.challenge-box li{font-size:14px;line-height:1.85;color:var(--text2)}
+.challenge-box ul{padding-left:20px}
+.puzzle-label{font-size:11px;letter-spacing:.4em;color:var(--red);text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.puzzle-label::before{content:'';display:inline-block;width:7px;height:7px;background:var(--red);border-radius:50%;animation:blink 1.2s infinite}
+.puzzle-q{font-size:15px;line-height:1.95;color:var(--text);margin-bottom:22px}
+.puzzle-q strong{color:var(--amber)}
+.pwd-area{display:flex;gap:12px;flex-wrap:wrap;align-items:stretch}
+.pwd-input{background:var(--bg);border:1px solid var(--border2);color:var(--amber);font-family:'Share Tech Mono',monospace;font-size:18px;letter-spacing:.25em;padding:14px 18px;flex:1;min-width:220px;text-transform:uppercase;outline:none}
+.pwd-input:focus{border-color:var(--amber-dim);box-shadow:0 0 12px rgba(245,166,35,.15)}
+.btn{background:transparent;border:1px solid var(--amber-dim);color:var(--amber);font-family:'Share Tech Mono',monospace;font-size:13px;letter-spacing:.22em;padding:14px 24px;cursor:pointer;text-transform:uppercase;transition:all .2s;white-space:nowrap}
+.btn:hover{background:rgba(245,166,35,.11);border-color:var(--amber);box-shadow:var(--shadow)}
+.btn-primary{border-color:var(--amber);background:rgba(245,166,35,.07)}
+.error-msg{color:var(--red);font-size:13px;letter-spacing:.12em;margin-top:12px;display:none;padding:10px 14px;background:rgba(255,68,68,.06);border-left:2px solid var(--red)}
+.error-msg.show{display:block;animation:fadeIn .3s}
+.hint-toggle{background:none;border:none;color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:.14em;cursor:pointer;padding:10px 0;text-decoration:underline;text-underline-offset:4px;display:block;margin-top:10px}
+.hint-text{display:none;margin-top:12px;font-size:14px;color:var(--muted);padding:14px 18px;background:rgba(0,0,0,.35);border-left:2px solid var(--muted);line-height:1.8}
+.hint-text.show{display:block;animation:fadeIn .3s}
+.success-banner{background:rgba(57,255,20,.05);border:1px solid rgba(57,255,20,.3);padding:18px 22px;margin:18px 0;display:none;align-items:center;gap:14px}
+.success-banner.show{display:flex;animation:fadeIn .4s}
+.success-text{font-size:13px;color:var(--green);letter-spacing:.12em;line-height:1.6}
+.audio-controls{position:fixed;top:14px;right:14px;z-index:10000;display:flex;flex-direction:column;gap:6px;align-items:flex-end}
+.music-btn{background:rgba(5,8,6,.95);border:1px solid var(--amber-dim);color:var(--amber);font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:.18em;padding:11px 16px;cursor:pointer;text-transform:uppercase;box-shadow:0 0 18px rgba(245,166,35,.1)}
+.music-btn:hover{background:rgba(245,166,35,.1)}
+.music-btn.on{border-color:var(--green);color:var(--green)}
+.audio-msg{max-width:300px;font-size:11px;color:var(--muted);letter-spacing:.06em;line-height:1.6;text-align:right}
+.final-screen{text-align:center;padding:60px 20px}
+.final-title{font-family:'Orbitron',sans-serif;font-size:clamp(24px,5vw,38px);font-weight:900;color:var(--green);letter-spacing:.1em;text-shadow:0 0 40px rgba(57,255,20,.5);margin-bottom:18px}
+.final-text{font-size:16px;line-height:2;color:var(--text2);max-width:700px;margin:0 auto 30px}
+.certificate{background:var(--bg2);border:1px solid var(--amber-dark);padding:34px;max-width:560px;margin:30px auto;position:relative}
+.certificate::before,.certificate::after{content:'';position:absolute;width:22px;height:22px;border-color:var(--amber);border-style:solid}
+.certificate::before{top:10px;left:10px;border-width:2px 0 0 2px}
+.certificate::after{bottom:10px;right:10px;border-width:0 2px 2px 0}
+.cert-title{font-family:'Orbitron',sans-serif;font-size:15px;color:var(--amber);letter-spacing:.18em;margin-bottom:10px}
+.cert-text{font-size:14px;color:var(--text);line-height:1.85}
+.badge-row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:18px}
+.cert-badge{font-size:11px;letter-spacing:.1em;color:var(--amber-dim);border:1px solid var(--amber-dark);padding:5px 10px}
+.divider{display:flex;align-items:center;gap:14px;margin:30px 0;font-size:11px;letter-spacing:.3em;color:var(--muted)}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+@media(max-width:760px){.dashboard{grid-template-columns:1fr}.mission-card,.puzzle-section,.resource-card{padding:22px 18px}.pwd-area{flex-direction:column}.pwd-input,.btn{width:100%}}
 </style>
 </head>
 <body>
-<audio id="bgMusic" loop preload="auto"><source src="musica.mp3" type="audio/mpeg"></audio>
-<div class="audio-controls"><button id="musicBtn" class="music-btn">♪ ACTIVAR AUDIO</button><div id="audioMsg" class="audio-msg"></div></div>
+<audio id="bgMusic" loop preload="auto">
+  <source src="https://robertOMenor.github.io/TU-REPO/musica.mp3" type="audio/mpeg">
+</audio>
+<div class="audio-controls">
+  <button id="musicBtn" class="music-btn">♪ ACTIVAR AUDIO</button>
+  <div id="audioMsg" class="audio-msg"></div>
+</div>
 <div class="silo-app">
-<header class="silo-header"><span class="header-line-top"></span><div class="silo-logo">Archivo Central · Sección Climática · Nivel 47</div><div class="header-corners"><div class="silo-title">EL SILO<br>ARCHIVO CLIMÁTICO</div></div><div class="silo-subtitle">Versión 2 · Protocolo largo · Nivel experto</div><span class="header-line-bot"></span></header>
-<div class="status-bar"><div class="status-left"><span class="status-dot"></span><span id="statusText">SESIÓN 01 ACTIVA</span></div><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><span class="prog-label">PROGRESO:</span><div class="status-progress"><div class="prog-seg active" id="p0"></div><div class="prog-seg" id="p1"></div><div class="prog-seg" id="p2"></div><div class="prog-seg" id="p3"></div><div class="prog-seg" id="p4"></div><div class="prog-seg" id="p5"></div><div class="prog-seg" id="p6"></div><div class="prog-seg" id="p7"></div></div></div></div>
-<div class="dashboard"><div class="panel"><div class="panel-title">Instrucciones de misión</div><ul><li>Lee el expediente completo antes de responder.</li><li>Mira el vídeo en español y toma notas.</li><li>Usa las tablas, cronologías y definiciones para resolver el acertijo.</li><li>Las claves son más difíciles: varias exigen comprender, no solo copiar.</li><li>Si fallas, usa la pista solo cuando ya hayas razonado la respuesta.</li></ul></div><div class="panel"><div class="panel-title">Indicadores del archivo</div><div class="score-grid"><div class="score-box"><div class="score-num">8</div><div class="score-label">sesiones principales</div></div><div class="score-box"><div class="score-num">+50</div><div class="score-label">minutos recomendados</div></div><div class="score-box"><div class="score-num">ES</div><div class="score-label">vídeos en español</div></div><div class="score-box"><div class="score-num">ALTO</div><div class="score-label">nivel de exigencia</div></div></div><div class="meter"><div class="meter-fill" id="meterFill"></div></div></div></div>
-<section class="session active" id="s0"><div class="mission-card"><div class="mission-number">01</div><div class="mission-tag">Sesión 01 — La atmósfera</div><div class="mission-title">LA CAPA QUE HIZO POSIBLE LA VIDA</div><div class="mission-text">Antes de estudiar el clima debes recuperar el conocimiento básico: <strong>qué es la atmósfera</strong>, por qué protege a la Tierra y por qué sin ella el planeta sería casi inhabitable. El Consejo del Silo exige una respuesta precisa: no basta con saber que hay aire; debes comprender su función reguladora.</div></div><div class="video-container"><div class="video-label"><span class="video-rec"></span> Vídeo en español — La atmósfera terrestre</div><iframe src="https://www.youtube.com/embed/6Maq5IyHSuc" title="La atmósfera terrestre" allowfullscreen loading="lazy"></iframe></div><div class="concept-box"><strong>Atmósfera:</strong> capa gaseosa que rodea la Tierra. Filtra radiación ultravioleta, regula la temperatura, permite el ciclo del agua y hace posible la respiración. Sus gases principales son nitrógeno, oxígeno, argón y dióxido de carbono en proporciones muy diferentes.</div><div class="clue-box"><div class="clue-title">Expediente 01-A · Composición del aire</div><div class="clue-text"><table class="data-table"><tr><th>Gas</th><th>Porcentaje aproximado</th><th>Función principal</th></tr><tr><td>Nitrógeno</td><td>78 %</td><td>Gas mayoritario, base del equilibrio atmosférico</td></tr><tr><td>Oxígeno</td><td>21 %</td><td>Respiración y combustión</td></tr><tr><td>Argón</td><td>0,93 %</td><td>Gas noble, poco reactivo</td></tr><tr><td>Dióxido de carbono</td><td>0,04 %</td><td>Efecto invernadero y fotosíntesis</td></tr></table>La capa que concentra el aire, el vapor de agua y los fenómenos meteorológicos es la más baja de la atmósfera. En ella se forman nubes, lluvia, viento y cambios de temperatura. Su nombre empieza por <span class="clue-highlight">TRO-</span>.</div></div><div class="challenge-box"><h4>Reto de nivel alto</h4><p>Explica por qué una cantidad pequeña de CO₂ puede ser climáticamente importante aunque su porcentaje sea mucho menor que el del nitrógeno o el oxígeno.</p></div><div class="puzzle-section"><div class="puzzle-label">Acertijo de acceso · Nivel 1</div><div class="puzzle-q">¿Cómo se llama la capa inferior de la atmósfera en la que se producen la lluvia, las nubes y casi todos los fenómenos meteorológicos? Escribe la palabra completa, sin tilde.</div><div class="pwd-area"><input class="pwd-input" id="inp0" placeholder="CAPA ATMOSFÉRICA..."><button class="btn btn-primary" onclick="check(0,'TROPOSFERA','s1')">Verificar →</button></div><div class="error-msg" id="err0">Respuesta incorrecta. Revisa la pista del prefijo TRO- y la función de la capa.</div><button class="hint-toggle" onclick="toggleHint('h0')">▶ Solicitar pista</button><div class="hint-text" id="h0">Pista: estratosfera no sirve, porque allí no se forman la lluvia ni las nubes habituales. La palabra comienza por TROPO-.</div><div class="success-banner" id="ok0"><span>✓</span><span class="success-text">Acceso concedido. Descargando Nivel 2…</span></div></div></section>
-<section class="session" id="s1"><div class="mission-card"><div class="mission-number">02</div><div class="mission-tag">Sesión 02 — Tiempo y clima</div><div class="mission-title">NO CONFUNDAS LA SEÑAL CON EL SISTEMA</div><div class="mission-text">Muchos habitantes del Silo confunden un día lluvioso con un clima lluvioso. El Archivo exige distinguir entre <strong>tiempo atmosférico</strong> y <strong>clima</strong>. Aquí empieza el trabajo realmente geográfico.</div></div><div class="video-container"><div class="video-label"><span class="video-rec"></span> Vídeo en español — Tiempo y clima</div><iframe src="https://www.youtube.com/embed/Quu8E8XQm7Q" title="Tiempo y clima" allowfullscreen loading="lazy"></iframe></div><div class="clue-box"><div class="clue-title">Expediente 02-A · Dos conceptos distintos</div><div class="clue-text">El <span class="clue-highlight">tiempo atmosférico</span> es el estado de la atmósfera en un lugar y momento concretos. El <span class="clue-highlight">clima</span> es la sucesión habitual de tipos de tiempo observados durante muchos años, normalmente unos 30. Un día de frío no convierte un lugar en polar; una semana de lluvia no convierte una ciudad en oceánica.</div></div><div class="challenge-box"><h4>Reto de clasificación</h4><ul><li>"Hoy hay tormenta en Madrid".</li><li>"En el Sáhara llueve muy poco".</li><li>"Mañana bajarán las temperaturas".</li><li>"En el clima oceánico llueve con frecuencia".</li></ul></div><div class="puzzle-section"><div class="puzzle-label">Acertijo de acceso · Nivel 2</div><div class="puzzle-q">Si una definición habla de la sucesión habitual de estados atmosféricos observados durante muchos años, ¿qué concepto geográfico nombra? Escribe una sola palabra.</div><div class="pwd-area"><input class="pwd-input" id="inp1" placeholder="CONCEPTO..."><button class="btn btn-primary" onclick="check(1,'CLIMA','s2')">Verificar →</button></div><div class="error-msg" id="err1">No es “tiempo”. Revisa la duración y la repetición.</div><button class="hint-toggle" onclick="toggleHint('h1')">▶ Solicitar pista</button><div class="hint-text" id="h1">Pista: si solo hablas de hoy o mañana, es tiempo. Si hablas de décadas, es clima.</div><div class="success-banner" id="ok1"><span>✓</span><span class="success-text">Acceso concedido. Descargando Nivel 3…</span></div></div></section>
-<section class="session" id="s2"><div class="mission-card"><div class="mission-number">03</div><div class="mission-tag">Sesión 03 — Elementos del clima</div><div class="mission-title">LOS DATOS QUE MIDEN EL MUNDO EXTERIOR</div><div class="mission-text">Para reconstruir el clima exterior necesitas dominar sus <strong>elementos</strong>: temperatura, precipitaciones, presión atmosférica, viento y humedad. Además, debes conocer con qué instrumentos se miden.</div></div><div class="video-container"><div class="video-label"><span class="video-rec"></span> Vídeo en español — Elementos del clima</div><iframe src="https://www.youtube.com/embed/0W2v5r3v3MI" title="Elementos del clima" allowfullscreen loading="lazy"></iframe></div><div class="clue-box"><div class="clue-title">Expediente 03-A · Instrumentos</div><div class="clue-text"><table class="data-table"><tr><th>Elemento</th><th>Qué mide</th><th>Instrumento</th><th>Unidad habitual</th></tr><tr><td>Temperatura</td><td>Grado de calor del aire</td><td>Termómetro</td><td>°C</td></tr><tr><td>Precipitaciones</td><td>Agua caída</td><td>Pluviómetro</td><td>mm</td></tr><tr><td>Presión</td><td>Peso del aire</td><td>Barómetro</td><td>mb / hPa</td></tr><tr><td>Viento</td><td>Velocidad y dirección</td><td>Anemómetro / veleta</td><td>km/h</td></tr><tr><td>Humedad</td><td>Vapor de agua</td><td>Higrómetro</td><td>%</td></tr></table></div></div><div class="challenge-box"><h4>Reto de cruce</h4><p>Si el barómetro baja rápidamente y el cielo se cubre, ¿qué cambio del tiempo puede ser probable? Razona la respuesta en una línea antes de introducir la clave.</p></div><div class="puzzle-section"><div class="puzzle-label">Acertijo de acceso · Nivel 3</div><div class="puzzle-q">¿Qué instrumento mide la cantidad de lluvia caída en un lugar? Escribe la palabra completa.</div><div class="pwd-area"><input class="pwd-input" id="inp2" placeholder="INSTRUMENTO..."><button class="btn btn-primary" onclick="check(2,'PLUVIOMETRO','s3')">Verificar →</button></div><div class="error-msg" id="err2">No mide temperatura ni viento. Busca el instrumento de la lluvia.</div><button class="hint-toggle" onclick="toggleHint('h2')">▶ Solicitar pista</button><div class="hint-text" id="h2">Pista: comienza por PLUVIO-, como pluvial o lluvia.</div><div class="success-banner" id="ok2"><span>✓</span><span class="success-text">Acceso concedido. Descargando Nivel 4…</span></div></div></section>
-<section class="session" id="s3"><div class="mission-card"><div class="mission-number">04</div><div class="mission-tag">Sesión 04 — Factores del clima</div><div class="mission-title">POR QUÉ NO TODOS LOS LUGARES SON IGUALES</div><div class="mission-text">Dos ciudades pueden estar en el mismo país y tener climas distintos. La causa está en los <strong>factores del clima</strong>: latitud, altitud, distancia al mar y relieve. Sin dominar estos factores, no podrás interpretar ninguna región del planeta.</div></div><div class="video-container"><div class="video-label"><span class="video-rec"></span> Vídeo en español — Factores del clima</div><iframe src="https://www.youtube.com/embed/4fM7M1w3x7o" title="Factores del clima" allowfullscreen loading="lazy"></iframe></div><div class="clue-box"><div class="clue-title">Expediente 04-A · Cuatro claves</div><div class="clue-text"><ul style="padding-left:20px"><li><span class="clue-highlight">Latitud</span>: cuanto más cerca del ecuador, más calor anual.</li><li><span class="clue-highlight">Altitud</span>: la temperatura desciende aproximadamente 0,6 °C cada 100 m.</li><li><span class="clue-highlight">Distancia al mar</span>: el mar suaviza temperaturas y aporta humedad.</li><li><span class="clue-highlight">Relieve</span>: las montañas frenan masas de aire y crean vertientes húmedas y secas.</li></ul></div></div><div class="challenge-box"><h4>Reto deductivo</h4><p>Ciudad A: costa atlántica. Ciudad B: interior continental. Ambas están a la misma latitud. ¿Cuál tendrá menor amplitud térmica? Justifícalo antes de responder.</p></div><div class="puzzle-section"><div class="puzzle-label">Acertijo de acceso · Nivel 4</div><div class="puzzle-q">¿Qué factor explica principalmente que una ciudad costera tenga temperaturas más suaves que otra del interior situada a la misma latitud?</div><div class="pwd-area"><input class="pwd-input" id="inp3" placeholder="FACTOR..."><button class="btn btn-primary" onclick="check(3,'DISTANCIA AL MAR','s4')">Verificar →</button></div><div class="error-msg" id="err3">La latitud aquí es la misma. Busca el factor que suaviza.</div><button class="hint-toggle" onclick="toggleHint('h3')">▶ Solicitar pista</button><div class="hint-text" id="h3">Pista: el agua del mar tarda más en calentarse y enfriarse que la tierra. Eso modera el clima.</div><div class="success-banner" id="ok3"><span>✓</span><span class="success-text">Acceso concedido. Descargando Nivel 5…</span></div></div></section>
-<section class="session" id="s4"><div class="mission-card"><div class="mission-number">05</div><div class="mission-tag">Sesión 05 — Zonas térmicas</div><div class="mission-title">LAS GRANDES FRANJAS DEL PLANETA</div><div class="mission-text">El Consejo te exige ubicar las grandes zonas climáticas del planeta: <strong>cálida, templadas y frías</strong>. Solo así podrás comprender después los tipos concretos de clima.</div></div><div class="video-container"><div class="video-label"><span class="video-rec"></span> Vídeo en español — Zonas climáticas</div><iframe src="https://www.youtube.com/embed/HivYvLxH4jw" title="Zonas climáticas" allowfullscreen loading="lazy"></iframe></div><div class="clue-box"><div class="clue-title">Expediente 05-A · Líneas imaginarias</div><div class="clue-text">La <span class="clue-highlight">zona cálida</span> se sitúa entre los trópicos. Las <span class="clue-highlight">zonas templadas</span> se extienden entre trópicos y círculos polares. Las <span class="clue-highlight">zonas frías</span> se localizan alrededor de los polos. El ecuador divide la Tierra en hemisferio norte y sur.</div></div><div class="challenge-box"><h4>Reto cartográfico</h4><p>Ordena de norte a sur estas líneas: Círculo Polar Ártico, Trópico de Cáncer, Ecuador, Trópico de Capricornio.</p></div><div class="puzzle-section"><div class="puzzle-label">Acertijo de acceso · Nivel 5</div><div class="puzzle-q">¿Qué línea imaginaria divide la Tierra en dos hemisferios y marca el centro de la zona cálida?</div><div class="pwd-area"><input class="pwd-input" id="inp4" placeholder="LÍNEA IMAGINARIA..."><button class="btn btn-primary" onclick="check(4,'ECUADOR','s5')">Verificar →</button></div><div class="error-msg" id="err4">No divide norte y sur. Revisa las grandes referencias del globo.</div><button class="hint-toggle" onclick="toggleHint('h4')">▶ Solicitar pista</button><div class="hint-text" id="h4">Pista: no es un trópico ni un círculo polar. Está en el centro del planeta.</div><div class="success-banner" id="ok4"><span>✓</span><span class="success-text">Acceso concedido. Descargando Nivel 6…</span></div></div></section>
-<section class="session" id="s5"><div class="mission-card"><div class="mission-number">06</div><div class="mission-tag">Sesión 06 — Tipos de clima</div><div class="mission-title">LOS OCHO ROSTROS DEL MUNDO</div><div class="mission-text">Ya puedes estudiar los grandes tipos de clima: ecuatorial, tropical, desértico, oceánico, mediterráneo, continental, polar y de montaña. El Archivo los compara para decidir qué regiones serían habitables en una posible salida al exterior.</div></div><div class="video-container"><div class="video-label"><span class="video-rec"></span> Vídeo en español — Tipos de clima de la Tierra</div><iframe src="https://www.youtube.com/embed/4YV6o6F6W9k" title="Tipos de clima" allowfullscreen loading="lazy"></iframe></div><div class="clue-box"><div class="clue-title">Expediente 06-A · Tabla comparativa</div><div class="clue-text"><table class="data-table"><tr><th>Clima</th><th>Temperaturas</th><th>Precipitaciones</th></tr><tr><td>Ecuatorial</td><td>Altas todo el año</td><td>Muy abundantes y regulares</td></tr><tr><td>Desértico</td><td>Muy altas o extremas</td><td>Muy escasas</td></tr><tr><td>Oceánico</td><td>Suaves</td><td>Frecuentes</td></tr><tr><td>Mediterráneo</td><td>Verano caluroso, invierno suave</td><td>Escasas en verano</td></tr><tr><td>Polar</td><td>Muy bajas</td><td>Escasas, casi siempre nieve</td></tr></table></div></div><div class="challenge-box"><h4>Reto de selección</h4><p>¿Qué clima elegirías para una colonia humana si priorizas agua disponible, temperaturas moderadas y agricultura? Piensa antes de responder el acertijo.</p></div><div class="puzzle-section"><div class="puzzle-label">Acertijo de acceso · Nivel 6</div><div class="puzzle-q">¿Qué clima templado se caracteriza por veranos secos y calurosos e inviernos suaves y lluviosos?</div><div class="pwd-area"><input class="pwd-input" id="inp5" placeholder="TIPO DE CLIMA..."><button class="btn btn-primary" onclick="check(5,'MEDITERRANEO','s6')">Verificar →</button></div><div class="error-msg" id="err5">Revisa la combinación de verano seco e invierno lluvioso.</div><button class="hint-toggle" onclick="toggleHint('h5')">▶ Solicitar pista</button><div class="hint-text" id="h5">Pista: se llama como el mar interior del sur de Europa.</div><div class="success-banner" id="ok5"><span>✓</span><span class="success-text">Acceso concedido. Descargando Nivel 7…</span></div></div></section>
-<section class="session" id="s6"><div class="mission-card"><div class="mission-number">07</div><div class="mission-tag">Sesión 07 — Climogramas</div><div class="mission-title">LEER EL CLIMA EN UN GRÁFICO</div><div class="mission-text">El Consejo no aceptará informes basados solo en descripciones. Debes aprender a interpretar <strong>climogramas</strong>: barras para precipitaciones y línea para temperaturas. Esta habilidad marca el paso de aprendiz a técnico.</div></div><div class="video-container"><div class="video-label"><span class="video-rec"></span> Vídeo en español — Cómo interpretar un climograma</div><iframe src="https://www.youtube.com/embed/ti0gAf5yMZ0" title="Climogramas" allowfullscreen loading="lazy"></iframe></div><div class="clue-box"><div class="clue-title">Expediente 07-A · Pistas de lectura</div><div class="clue-text">En un climograma, la <span class="clue-highlight">línea</span> representa la temperatura media mensual y las <span class="clue-highlight">barras</span> representan las precipitaciones mensuales. Si las barras son bajas en verano y la línea se eleva, probablemente estés ante un clima mediterráneo. Si la línea es alta todo el año y las barras también, probablemente sea ecuatorial.</div></div><div class="challenge-box"><h4>Reto analítico</h4><ul><li>Amplitud térmica alta = fuerte diferencia entre verano e invierno.</li><li>Precipitaciones regulares = barras repartidas a lo largo del año.</li><li>Estación seca = varios meses con precipitaciones muy bajas.</li></ul></div><div class="puzzle-section"><div class="puzzle-label">Acertijo de acceso · Nivel 7</div><div class="puzzle-q">En un climograma, ¿qué elemento gráfico representa normalmente las precipitaciones: la línea o las barras? Responde con una sola palabra.</div><div class="pwd-area"><input class="pwd-input" id="inp6" placeholder="ELEMENTO GRÁFICO..."><button class="btn btn-primary" onclick="check(6,'BARRAS','s7')">Verificar →</button></div><div class="error-msg" id="err6">La línea suele usarse para la temperatura. Revisa la convención básica.</div><button class="hint-toggle" onclick="toggleHint('h6')">▶ Solicitar pista</button><div class="hint-text" id="h6">Pista: piensa en columnas verticales mensuales.</div><div class="success-banner" id="ok6"><span>✓</span><span class="success-text">Acceso concedido. Descargando Nivel 8…</span></div></div></section>
-<section class="session" id="s7"><div class="mission-card"><div class="mission-number">08</div><div class="mission-tag">Sesión 08 — Cambio climático</div><div class="mission-title">DEL CLIMA NATURAL A LA CRISIS ACTUAL</div><div class="mission-text">Has recuperado el conocimiento clásico del clima. Ahora debes conectar ese saber con la crisis contemporánea: efecto invernadero reforzado, causas humanas, consecuencias, mitigación y adaptación. Este es el último filtro antes de abrir las compuertas.</div></div><div class="video-container"><div class="video-label"><span class="video-rec"></span> Vídeo en español — Cambio climático explicado</div><iframe src="https://www.youtube.com/embed/1YjM1fP4Y2Q" title="Cambio climático" allowfullscreen loading="lazy"></iframe></div><div class="clue-box"><div class="clue-title">Expediente 08-A · Estrategias</div><div class="clue-text"><table class="data-table"><tr><th>Estrategia</th><th>Qué hace</th><th>Ejemplos</th></tr><tr><td>Mitigación</td><td>Actúa sobre las causas</td><td>Reducir emisiones, renovables, eficiencia</td></tr><tr><td>Adaptación</td><td>Actúa sobre los efectos</td><td>Diques, cultivos resistentes, alertas</td></tr></table>Reducir emisiones intenta frenar el problema. Adaptar ciudades y cultivos intenta vivir mejor con el cambio ya presente. Las dos son necesarias.</div></div><div class="challenge-box"><h4>Reto final largo</h4><p>Piensa en una ciudad costera. ¿Sería mitigación o adaptación construir diques? ¿Y sustituir una central térmica por paneles solares? Debes distinguir ambas antes de introducir la clave final.</p></div><div class="puzzle-section"><div class="puzzle-label">Acertijo final · Acceso a la superficie</div><div class="puzzle-q">¿Cómo se llama la estrategia climática que consiste en modificar cultivos, ciudades e infraestructuras para vivir con el cambio climático ya existente? Responde sin tilde.</div><div class="pwd-area"><input class="pwd-input" id="inp7" placeholder="ESTRATEGIA..."><button class="btn btn-primary" onclick="check(7,'ADAPTACION','sfinal')">Verificar →</button></div><div class="error-msg" id="err7">No actúa sobre la causa sino sobre los efectos. Revisa la tabla.</div><button class="hint-toggle" onclick="toggleHint('h7')">▶ Solicitar pista</button><div class="hint-text" id="h7">Pista: viene del verbo adaptar.</div><div class="success-banner" id="ok7"><span>✓</span><span class="success-text">Protocolo completado. Abriendo compuertas…</span></div></div></section>
-<section class="session" id="sfinal"><div class="final-screen"><div class="final-title">MISIÓN COMPLETADA</div><div class="final-text">Has completado la versión extendida del Archivo Climático del Silo. Ya no solo distingues tiempo y clima: interpretas factores, zonas térmicas, tipos de clima, climogramas y su relación con el cambio climático. El Consejo reconoce tu capacidad para evaluar el mundo exterior con criterio geográfico.</div><div class="certificate"><div class="cert-title">CERTIFICADO DE TÉCNICO CLIMÁTICO · NIVEL AVANZADO</div><div class="cert-text">El portador ha superado con éxito la versión larga y exigente del Protocolo Climático del Silo, demostrando dominio conceptual, capacidad de interpretación y razonamiento aplicado.</div><div class="badge-row"><span class="cert-badge">ATMÓSFERA</span><span class="cert-badge">TIEMPO Y CLIMA</span><span class="cert-badge">ELEMENTOS</span><span class="cert-badge">FACTORES</span><span class="cert-badge">ZONAS</span><span class="cert-badge">TIPOS</span><span class="cert-badge">CLIMOGRAMAS</span><span class="cert-badge">ADAPTACIÓN</span></div></div><div class="divider">FIN DE TRANSMISIÓN</div></div></section>
+  <header class="silo-header">
+    <span class="header-line-top"></span>
+    <div class="silo-logo">Archivo Central · Sección Climática · Nivel 47</div>
+    <div class="header-corners">
+      <div class="silo-title">EL SILO<br>ARCHIVO CLIMÁTICO</div>
+    </div>
+    <div class="silo-subtitle">Versión 2 · Protocolo largo · Nivel experto</div>
+    <span class="header-line-bot"></span>
+  </header>
+
+  <div class="status-bar">
+    <div class="status-left"><span class="status-dot"></span><span id="statusText">SESIÓN 01 ACTIVA</span></div>
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><span class="prog-label">PROGRESO:</span>
+      <div class="status-progress">
+        <div class="prog-seg active" id="p0"></div>
+        <div class="prog-seg" id="p1"></div>
+        <div class="prog-seg" id="p2"></div>
+        <div class="prog-seg" id="p3"></div>
+        <div class="prog-seg" id="p4"></div>
+        <div class="prog-seg" id="p5"></div>
+        <div class="prog-seg" id="p6"></div>
+        <div class="prog-seg" id="p7"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dashboard">
+    <div class="panel">
+      <div class="panel-title">Instrucciones de misión</div>
+      <ul>
+        <li>Lee el expediente completo antes de responder.</li>
+        <li>Mira el vídeo en español y toma notas.</li>
+        <li>Usa las tablas, cronologías y definiciones para resolver el acertijo.</li>
+        <li>Las claves son más difíciles: varias exigen comprender, no solo copiar.</li>
+        <li>Si fallas, usa la pista solo cuando ya hayas razonado la respuesta.</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <div class="panel-title">Indicadores del archivo</div>
+      <div class="score-grid">
+        <div class="score-box"><div class="score-num">8</div><div class="score-label">sesiones principales</div></div>
+        <div class="score-box"><div class="score-num">+50</div><div class="score-label">minutos recomendados</div></div>
+        <div class="score-box"><div class="score-num">ES</div><div class="score-label">vídeos en español</div></div>
+        <div class="score-box"><div class="score-num">ALTO</div><div class="score-label">nivel de exigencia</div></div>
+      </div>
+      <div class="meter"><div class="meter-fill" id="meterFill"></div></div>
+    </div>
+  </div>
+
+  <section class="session active" id="s0">
+    <div class="mission-card">
+      <div class="mission-number">01</div>
+      <div class="mission-tag">Sesión 01 — La atmósfera</div>
+      <div class="mission-title">LA CAPA QUE HIZO POSIBLE LA VIDA</div>
+      <div class="mission-text">Antes de estudiar el clima debes recuperar el conocimiento básico: <strong>qué es la atmósfera</strong>, por qué protege a la Tierra y por qué sin ella el planeta sería casi inhabitable. El Consejo del Silo exige una respuesta precisa: no basta con saber que hay aire; debes comprender su función reguladora.</div>
+    </div>
+    <div class="video-container"><div class="video-label"><span class="video-rec"></span> Vídeo en español — La atmósfera terrestre</div><iframe src="https://www.youtube.com/embed/SN5-DnOHQmE" title="La atmósfera terrestre" allowfullscreen loading="lazy"></iframe></div>
+    <div class="concept-box"><strong>Atmósfera:</strong> capa gaseosa que rodea la Tierra. Filtra radiación ultravioleta, regula la temperatura, permite el ciclo del agua y hace posible la respiración. Sus gases principales son nitrógeno, oxígeno, argón y dióxido de carbono en proporciones muy diferentes.</div>
+    <div class="clue-box">
+      <div class="clue-title">Expediente 01-A · Composición del aire</div>
+      <div class="clue-text">
+        <table class="data-table">
+          <tr><th>Gas</th><th>Porcentaje aproximado</th><th>Función principal</th></tr>
+          <tr><td>Nitrógeno</td><td>78 %</td><td>Gas mayoritario, base del equilibrio atmosférico</td></tr>
+          <tr><td>Oxígeno</td><td>21 %</td><td>Respiración y combustión</td></tr>
+          <tr><td>Argón</td><td>0,93 %</td><td>Gas noble, poco reactivo</td></tr>
+          <tr><td>Dióxido de carbono</td><td>0,04 %</td><td>Efecto invernadero y fotosíntesis</td></tr>
+        </table>
+        La capa que concentra el aire, el vapor de agua y los fenómenos meteorológicos es la más baja de la atmósfera. En ella se forman nubes, lluvia, viento y cambios de temperatura. Su nombre empieza por <span class="clue-highlight">TRO-</span>.
+      </div>
+    </div>
+    <div class="challenge-box"><h4>Reto de nivel alto</h4><p>Explica por qué una cantidad pequeña de CO₂ puede ser climáticamente importante aunque su porcentaje sea mucho menor que el del nitrógeno o el oxígeno.</p></div>
+    <div class="puzzle-section">
+      <div class="puzzle-label">Acertijo de acceso · Nivel 1</div>
+      <div class="puzzle-q">Código de acceso de dos pasos: primero identifica la capa inferior de la atmósfera donde se producen la lluvia, las nubes y casi todos los fenómenos meteorológicos. Después añade al final el número de gases de la tabla que aparecen con porcentaje explícito. Escribe todo junto, sin espacios ni tilde. Ejemplo de formato: PALABRA4.</div>
+      <div class="pwd-area"><input class="pwd-input" id="inp0" placeholder="CAPA ATMOSFÉRICA..."><button class="btn btn-primary" onclick="check(0,'TROPOSFERA4','s1')">Verificar →</button></div>
+      <div class="error-msg" id="err0">Respuesta incorrecta. Revisa la pista del prefijo TRO- y la función de la capa.</div>
+      <button class="hint-toggle" onclick="toggleHint('h0')">▶ Solicitar pista</button>
+      <div class="hint-text" id="h0">Pista: la palabra correcta es TROPOSFERA. Después debes añadir el número de gases de la tabla con porcentaje explícito: nitrógeno, oxígeno, argón y dióxido de carbono.</div>
+      <div class="success-banner" id="ok0"><span>✓</span><span class="success-text">Acceso concedido. Descargando Nivel 2…</span></div>
+    </div>
+  </section>
+
+  <section class="session" id="s1">
+    <div class="mission-card"><div class="mission-number">02</div><div class="mission-tag">Sesión 02 — Tiempo y clima</div><div class="mission-title">NO CONFUNDAS LA SEÑAL CON EL SISTEMA</div><div class="mission-text">Muchos habitantes del Silo confunden un día lluvioso con un clima lluvioso. El Archivo exige distinguir entre <strong>tiempo atmosférico</strong> y <strong>clima</strong>. Aquí empieza el trabajo realmente geográfico.</div></div>
+    <div class="video-container"><div class="video-label"><span class="video-rec"></span> Vídeo en español — Tiempo y clima</div><iframe src="https://www.youtube.com/embed/Quu8E8XQm7Q" title="Tiempo y clima" allowfullscreen loading="lazy"></iframe></div>
+    <div class="clue-box"><div class="clue-title">Expediente 02-A · Dos conceptos distintos</div><div class="clue-text">El <span class="clue-highlight">tiempo atmosférico</span> es el estado de la atmósfera en un lugar y momento concretos. El <span class="clue-highlight">clima</span> es la sucesión habitual de tipos de tiempo observados durante muchos años, normalmente unos 30. Un día de frío no convierte un lugar en polar; una semana de lluvia no convierte una ciudad en oceánica.</div></div>
+    <div class="challenge-box"><h4>Reto de clasificación</h4><ul><li>"Hoy hay tormenta en Madrid".</li><li>"En el Sáhara llueve muy poco".</li><li>"Mañana bajarán las temperaturas".</li><li>"En el clima oceánico llueve con frecuencia".</li></ul></div>
+    <div class="puzzle-section"><div class="puzzle-label">Acertijo de acceso · Nivel 2</div><div class="puzzle-q">Código de acceso de dos pasos: identifica el concepto geográfico que nombra la sucesión habitual de estados atmosféricos observados durante muchos años. Después añade el número de años que suele usarse para estudiarlo. Responde todo junto y sin espacios. Ejemplo: PALABRA30.</div><div class="pwd-area"><input class="pwd-input" id="inp1" placeholder="CONCEPTO..."><button class="btn btn-primary" onclick="check(1,'CLIMA30','s2')">Verificar →</button></div><div class="error-msg" id="err1">No es “tiempo”. Revisa la duración y la repetición.</div><button class="hint-toggle" onclick="toggleHint('h1')">▶ Solicitar pista</button><div class="hint-text" id="h1">Pista: la palabra correcta es CLIMA. En Geografía se suele estudiar con series de unos 30 años.</div><div class="success-banner" id="ok1"><span>✓</span><span class="success-text">Acceso concedido. Descargando Nivel 3…</span></div></div>
+  </section>
+
+  <section class="session" id="s2">
+    <div class="mission-card"><div class="mission-number">03</div><div class="mission-tag">Sesión 03 — Elementos del clima</div><div class="mission-title">LOS DATOS QUE MIDEN EL MUNDO EXTERIOR</div><div class="mission-text">Para reconstruir el clima exterior necesitas dominar sus <strong>elementos</strong>: temperatura, precipitaciones, presión atmosférica, viento y humedad. Además, debes conocer con qué instrumentos se miden.</div></div>
+    <div class="video-container"><div class="video-label"><span class="video-rec"></span> Vídeo en español — Elementos del clima</div><iframe src="https://www.youtube.com/embed/0W2v5r3v3MI" title="Elementos del clima" allowfullscreen loading="lazy"></iframe></div>
+    <div class="clue-box"><div class="clue-title">Expediente 03-A · Instrumentos</div><div class="clue-text"><table class="data-table"><tr><th>Elemento</th><th>Qué mide</th><th>Instrumento</th><th>Unidad habitual</th></tr><tr><td>Temperatura</td><td>Grado de calor del aire</td><td>Termómetro</td><td>°C</td></tr><tr><td>Precipitaciones</td><td>Agua caída</td><td>Pluviómetro</td><td>mm</td></tr><tr><td>Presión</td><td>Peso del aire</td><td>Barómetro</td><td>mb / hPa</td></tr><tr><td>Viento</td><td>Velocidad y dirección</td><td>Anemómetro / veleta</td><td>km/h</td></tr><tr><td>Humedad</td><td>Vapor de agua</td><td>Higrómetro</td><td>%</td></tr></table></div></div>
+    <div class="challenge-box"><h4>Reto de cruce</h4><p>Si el barómetro baja rápidamente y el cielo se cubre, ¿qué cambio del tiempo puede ser probable? Razona la respuesta en una línea antes de introducir la clave.</p></div>
+    <div class="puzzle-section"><div class="puzzle-label">Acertijo de acceso · Nivel 3</div><div class="puzzle-q">Código de acceso de dos pasos: identifica el instrumento que mide la cantidad de lluvia caída en un lugar. Luego añade la unidad habitual de las precipitaciones según la tabla. Responde todo junto, sin espacios. Ejemplo: PALABRAmm.</div><div class="pwd-area"><input class="pwd-input" id="inp2" placeholder="INSTRUMENTO..."><button class="btn btn-primary" onclick="check(2,'PLUVIOMETROMM','s3')">Verificar →</button></div><div class="error-msg" id="err2">No mide temperatura ni viento. Busca el instrumento de la lluvia.</div><button class="hint-toggle" onclick="toggleHint('h2')">▶ Solicitar pista</button><div class="hint-text" id="h2">Pista: la palabra correcta es PLUVIOMETRO. En la tabla, las precipitaciones aparecen medidas en mm.</div><div class="success-banner" id="ok2"><span>✓</span><span class="success-text">Acceso concedido. Descargando Nivel 4…</span></div></div>
+  </section>
+
+  <section class="session" id="s3">
+    <div class="mission-card"><div class="mission-number">04</div><div class="mission-tag">Sesión 04 — Factores del clima</div><div class="mission-title">POR QUÉ NO TODOS LOS LUGARES SON IGUALES</div><div class="mission-text">Dos ciudades pueden estar en el mismo país y tener climas distintos. La causa está en los <strong>factores del clima</strong>: latitud, altitud, distancia al mar y relieve. Sin dominar estos factores, no podrás interpretar ninguna región del planeta.</div></div>
+    <div class="video-container"><div class="video-label"><span class="video-rec"></span> Vídeo en español — Factores del clima</div><iframe src="https://www.youtube.com/embed/4fM7M1w3x7o" title="Factores del clima" allowfullscreen loading="lazy"></iframe></div>
+    <div class="clue-box"><div class="clue-title">Expediente 04-A · Cuatro claves</div><div class="clue-text"><ul style="padding-left:20px"><li><span class="clue-highlight">Latitud</span>: cuanto más cerca del ecuador, más calor anual.</li><li><span class="clue-highlight">Altitud</span>: la temperatura desciende aproximadamente 0,6 °C cada 100 m.</li><li><span class="clue-highlight">Distancia al mar</span>: el mar suaviza temperaturas y aporta humedad.</li><li><span class="clue-highlight">Relieve</span>: las montañas frenan masas de aire y crean vertientes húmedas y secas.</li></ul></div></div>
+    <div class="challenge-box"><h4>Reto deductivo</h4><p>Ciudad A: costa atlántica. Ciudad B: interior continental. Ambas están a la misma latitud. ¿Cuál tendrá menor amplitud térmica? Justifícalo antes de responder.</p></div>
+    <div class="puzzle-section"><div class="puzzle-label">Acertijo de acceso · Nivel 4</div><div class="puzzle-q">Código de acceso de dos pasos: identifica el factor que explica que una ciudad costera tenga temperaturas más suaves que otra del interior situada a la misma latitud. Después añade la palabra SUAVE en singular, todo junto y sin espacios.</div><div class="pwd-area"><input class="pwd-input" id="inp3" placeholder="FACTOR..."><button class="btn btn-primary" onclick="check(3,'DISTANCIAALMARSUAVE','s4')">Verificar →</button></div><div class="error-msg" id="err3">La latitud aquí es la misma. Busca el factor que suaviza.</div><button class="hint-toggle" onclick="toggleHint('h3')">▶ Solicitar pista</button><div class="hint-text" id="h3">Pista: la clave empieza por DISTANCIAALMAR y termina con la idea principal del efecto: SUAVE.</div><div class="success-banner" id="ok3"><span>✓</span><span class="success-text">Acceso concedido. Descargando Nivel 5…</span></div></div>
+  </section>
+
+  <section class="session" id="s4">
+    <div class="mission-card"><div class="mission-number">05</div><div class="mission-tag">Sesión 05 — Zonas térmicas</div><div class="mission-title">LAS GRANDES FRANJAS DEL PLANETA</div><div class="mission-text">El Consejo te exige ubicar las grandes zonas climáticas del planeta: <strong>cálida, templadas y frías</strong>. Solo así podrás comprender después los tipos concretos de clima.</div></div>
+    <div class="video-container"><div class="video-label"><span class="video-rec"></span> Vídeo en español — Zonas climáticas</div><iframe src="https://www.youtube.com/embed/HivYvLxH4jw" title="Zonas climáticas" allowfullscreen loading="lazy"></iframe></div>
+    <div class="clue-box"><div class="clue-title">Expediente 05-A · Líneas imaginarias</div><div class="clue-text">La <span class="clue-highlight">zona cálida</span> se sitúa entre los trópicos. Las <span class="clue-highlight">zonas templadas</span> se extienden entre trópicos y círculos polares. Las <span class="clue-highlight">zonas frías</span> se localizan alrededor de los polos. El ecuador divide la Tierra en hemisferio norte y sur.</div></div>
+    <div class="challenge-box"><h4>Reto cartográfico</h4><p>Ordena de norte a sur estas líneas: Círculo Polar Ártico, Trópico de Cáncer, Ecuador, Trópico de Capricornio.</p></div>
+    <div class="puzzle-section"><div class="puzzle-label">Acertijo de acceso · Nivel 5</div><div class="puzzle-q">Código de acceso de dos pasos: identifica la línea imaginaria que divide la Tierra en dos hemisferios y marca el centro de la zona cálida. Después añade la palabra CALIDA, todo junto y sin espacios.</div><div class="pwd-area"><input class="pwd-input" id="inp4" placeholder="LÍNEA IMAGINARIA..."><button class="btn btn-primary" onclick="check(4,'ECUADORCALIDA','s5')">Verificar →</button></div><div class="error-msg" id="err4">No divide norte y sur. Revisa las grandes referencias del globo.</div><button class="hint-toggle" onclick="toggleHint('h4')">▶ Solicitar pista</button><div class="hint-text" id="h4">Pista: la primera parte es ECUADOR y la segunda parte describe la zona térmica que organiza en su centro: CALIDA.</div><div class="success-banner" id="ok4"><span>✓</span><span class="success-text">Acceso concedido. Descargando Nivel 6…</span></div></div>
+  </section>
+
+  <section class="session" id="s5">
+    <div class="mission-card"><div class="mission-number">06</div><div class="mission-tag">Sesión 06 — Tipos de clima</div><div class="mission-title">LOS OCHO ROSTROS DEL MUNDO</div><div class="mission-text">Ya puedes estudiar los grandes tipos de clima: ecuatorial, tropical, desértico, oceánico, mediterráneo, continental, polar y de montaña. El Archivo los compara para decidir qué regiones serían habitables en una posible salida al exterior.</div></div>
+    <div class="video-container"><div class="video-label"><span class="video-rec"></span> Vídeo en español — Tipos de clima de la Tierra</div><iframe src="https://www.youtube.com/embed/1kUE0BZtTRc" title="Tipos de clima" allowfullscreen loading="lazy"></iframe></div>
+    <div class="clue-box"><div class="clue-title">Expediente 06-A · Tabla comparativa</div><div class="clue-text"><table class="data-table"><tr><th>Clima</th><th>Temperaturas</th><th>Precipitaciones</th></tr><tr><td>Ecuatorial</td><td>Altas todo el año</td><td>Muy abundantes y regulares</td></tr><tr><td>Desértico</td><td>Muy altas o extremas</td><td>Muy escasas</td></tr><tr><td>Oceánico</td><td>Suaves</td><td>Frecuentes</td></tr><tr><td>Mediterráneo</td><td>Verano caluroso, invierno suave</td><td>Escasas en verano</td></tr><tr><td>Polar</td><td>Muy bajas</td><td>Escasas, casi siempre nieve</td></tr></table></div></div>
+    <div class="challenge-box"><h4>Reto de selección</h4><p>¿Qué clima elegirías para una colonia humana si priorizas agua disponible, temperaturas moderadas y agricultura? Piensa antes de responder el acertijo.</p></div>
+    <div class="puzzle-section"><div class="puzzle-label">Acertijo de acceso · Nivel 6</div><div class="puzzle-q">Código de acceso de dos pasos: identifica el clima templado con veranos secos y calurosos e inviernos suaves y lluviosos. Después añade la estación del año que aparece seca en su definición. Todo junto y sin espacios.</div><div class="pwd-area"><input class="pwd-input" id="inp5" placeholder="TIPO DE CLIMA..."><button class="btn btn-primary" onclick="check(5,'MEDITERRANEOVERANO','s6')">Verificar →</button></div><div class="error-msg" id="err5">Revisa la combinación de verano seco e invierno lluvioso.</div><button class="hint-toggle" onclick="toggleHint('h5')">▶ Solicitar pista</button><div class="hint-text" id="h5">Pista: la primera parte es MEDITERRANEO. La segunda es la estación seca característica: VERANO.</div><div class="success-banner" id="ok5"><span>✓</span><span class="success-text">Acceso concedido. Descargando Nivel 7…</span></div></div>
+  </section>
+
+  <section class="session" id="s6">
+    <div class="mission-card"><div class="mission-number">07</div><div class="mission-tag">Sesión 07 — Climogramas</div><div class="mission-title">LEER EL CLIMA EN UN GRÁFICO</div><div class="mission-text">El Consejo no aceptará informes basados solo en descripciones. Debes aprender a interpretar <strong>climogramas</strong>: barras para precipitaciones y línea para temperaturas. Esta habilidad marca el paso de aprendiz a técnico.</div></div>
+    <div class="video-container"><div class="video-label"><span class="video-rec"></span> Vídeo en español — Cómo interpretar un climograma</div><iframe src="https://www.youtube.com/embed/ipVxxxqwBQw" title="Climogramas" allowfullscreen loading="lazy"></iframe></div>
+    <div class="clue-box"><div class="clue-title">Expediente 07-A · Pistas de lectura</div><div class="clue-text">En un climograma, la <span class="clue-highlight">línea</span> representa la temperatura media mensual y las <span class="clue-highlight">barras</span> representan las precipitaciones mensuales. Si las barras son bajas en verano y la línea se eleva, probablemente estés ante un clima mediterráneo. Si la línea es alta todo el año y las barras también, probablemente sea ecuatorial.</div></div>
+    <div class="challenge-box"><h4>Reto analítico</h4><ul><li>Amplitud térmica alta = fuerte diferencia entre verano e invierno.</li><li>Precipitaciones regulares = barras repartidas a lo largo del año.</li><li>Estación seca = varios meses con precipitaciones muy bajas.</li></ul></div>
+    <div class="puzzle-section"><div class="puzzle-label">Acertijo de acceso · Nivel 7</div><div class="puzzle-q">Código de acceso de dos pasos: en un climograma, identifica qué elemento gráfico representa normalmente las precipitaciones. Después añade la palabra LLUVIA. Todo junto y sin espacios.</div><div class="pwd-area"><input class="pwd-input" id="inp6" placeholder="ELEMENTO GRÁFICO..."><button class="btn btn-primary" onclick="check(6,'BARRASLLUVIA','s7')">Verificar →</button></div><div class="error-msg" id="err6">La línea suele usarse para la temperatura. Revisa la convención básica.</div><button class="hint-toggle" onclick="toggleHint('h6')">▶ Solicitar pista</button><div class="hint-text" id="h6">Pista: la primera parte es BARRAS. La segunda parte nombra lo que representan: LLUVIA.</div><div class="success-banner" id="ok6"><span>✓</span><span class="success-text">Acceso concedido. Descargando Nivel 8…</span></div></div>
+  </section>
+
+  <section class="session" id="s7">
+    <div class="mission-card"><div class="mission-number">08</div><div class="mission-tag">Sesión 08 — Cambio climático</div><div class="mission-title">DEL CLIMA NATURAL A LA CRISIS ACTUAL</div><div class="mission-text">Has recuperado el conocimiento clásico del clima. Ahora debes conectar ese saber con la crisis contemporánea: efecto invernadero reforzado, causas humanas, consecuencias, mitigación y adaptación. Este es el último filtro antes de abrir las compuertas.</div></div>
+    <div class="video-container"><div class="video-label"><span class="video-rec"></span> Vídeo en español — Cambio climático explicado</div><iframe src="https://www.youtube.com/embed/wbR-5mHI6bo" title="Cambio climático" allowfullscreen loading="lazy"></iframe></div>
+    <div class="clue-box"><div class="clue-title">Expediente 08-A · Estrategias</div><div class="clue-text"><table class="data-table"><tr><th>Estrategia</th><th>Qué hace</th><th>Ejemplos</th></tr><tr><td>Mitigación</td><td>Actúa sobre las causas</td><td>Reducir emisiones, renovables, eficiencia</td></tr><tr><td>Adaptación</td><td>Actúa sobre los efectos</td><td>Diques, cultivos resistentes, alertas</td></tr></table>Reducir emisiones intenta frenar el problema. Adaptar ciudades y cultivos intenta vivir mejor con el cambio ya presente. Las dos son necesarias.</div></div>
+    <div class="challenge-box"><h4>Reto final largo</h4><p>Piensa en una ciudad costera. ¿Sería mitigación o adaptación construir diques? ¿Y sustituir una central térmica por paneles solares? Debes distinguir ambas antes de introducir la clave final.</p></div>
+    <div class="puzzle-section"><div class="puzzle-label">Acertijo final · Acceso a la superficie</div><div class="puzzle-q">Código final de tres pasos: identifica la estrategia climática que consiste en modificar cultivos, ciudades e infraestructuras para vivir con el cambio climático ya existente. Después añade el nombre de la otra estrategia climática explicada en la tabla. Responde todo junto, sin espacios ni tildes.</div><div class="pwd-area"><input class="pwd-input" id="inp7" placeholder="ESTRATEGIA..."><button class="btn btn-primary" onclick="check(7,'ADAPTACIONMITIGACION','sfinal')">Verificar →</button></div><div class="error-msg" id="err7">No actúa sobre la causa sino sobre los efectos. Revisa la tabla.</div><button class="hint-toggle" onclick="toggleHint('h7')">▶ Solicitar pista</button><div class="hint-text" id="h7">Pista: la primera parte es ADAPTACION. La segunda es MITIGACION.</div><div class="success-banner" id="ok7"><span>✓</span><span class="success-text">Protocolo completado. Abriendo compuertas…</span></div></div>
+  </section>
+
+  <section class="session" id="sfinal">
+    <div class="final-screen">
+      <div class="final-title">MISIÓN COMPLETADA</div>
+      <div class="final-text">Has completado la versión extendida del Archivo Climático del Silo. Ya no solo distingues tiempo y clima: interpretas factores, zonas térmicas, tipos de clima, climogramas y su relación con el cambio climático. El Consejo reconoce tu capacidad para evaluar el mundo exterior con criterio geográfico.</div>
+      <div class="certificate"><div class="cert-title">CERTIFICADO DE TÉCNICO CLIMÁTICO · NIVEL AVANZADO</div><div class="cert-text">El portador ha superado con éxito la versión larga y exigente del Protocolo Climático del Silo, demostrando dominio conceptual, capacidad de interpretación y razonamiento aplicado.</div><div class="badge-row"><span class="cert-badge">ATMÓSFERA</span><span class="cert-badge">TIEMPO Y CLIMA</span><span class="cert-badge">ELEMENTOS</span><span class="cert-badge">FACTORES</span><span class="cert-badge">ZONAS</span><span class="cert-badge">TIPOS</span><span class="cert-badge">CLIMOGRAMAS</span><span class="cert-badge">ADAPTACIÓN</span></div></div>
+      <div class="divider">FIN DE TRANSMISIÓN</div>
+    </div>
+  </section>
 </div>
 <script>
 function normalize(s){return (s||'').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim()}
-function check(idx,correct,nextId){var inp=document.getElementById('inp'+idx), ok=document.getElementById('ok'+idx), err=document.getElementById('err'+idx); if(normalize(inp.value)===normalize(correct)){ok.classList.add('show'); err.classList.remove('show'); inp.style.borderColor='#39ff14'; inp.disabled=true; setTimeout(function(){goTo(nextId)},1800)} else {err.classList.add('show'); inp.style.borderColor='#ff4444'; inp.style.animation='shake .4s ease'; setTimeout(function(){inp.style.animation=''; inp.style.borderColor=''},500)}}
-function goTo(id){document.querySelectorAll('.session').forEach(function(s){s.classList.remove('active')}); document.getElementById(id).classList.add('active'); window.scrollTo({top:0,behavior:'smooth'}); updateStatus(id)}
-function updateStatus(id){var labels=['SESIÓN 01 ACTIVA','SESIÓN 02 ACTIVA','SESIÓN 03 ACTIVA','SESIÓN 04 ACTIVA','SESIÓN 05 ACTIVA','SESIÓN 06 ACTIVA','SESIÓN 07 ACTIVA','SESIÓN 08 ACTIVA','MISIÓN COMPLETADA']; var map={s0:0,s1:1,s2:2,s3:3,s4:4,s5:5,s6:6,s7:7,sfinal:8}; var idx=(map[id]!==undefined)?map[id]:0; document.getElementById('statusText').textContent=labels[idx]||''; for(var i=0;i<8;i++){var seg=document.getElementById('p'+i); if(!seg) continue; if(i<idx) seg.className='prog-seg done'; else if(i===idx) seg.className='prog-seg active'; else seg.className='prog-seg';} var percent=Math.min((idx/8)*100,100); document.getElementById('meterFill').style.width=percent+'%'}
+function check(idx,correct,nextId){
+  var inp=document.getElementById('inp'+idx), ok=document.getElementById('ok'+idx), err=document.getElementById('err'+idx);
+  if(normalize(inp.value)===normalize(correct)){
+    ok.classList.add('show'); err.classList.remove('show'); inp.style.borderColor='#39ff14'; inp.disabled=true; setTimeout(function(){goTo(nextId)},1800)
+  } else {
+    err.classList.add('show'); inp.style.borderColor='#ff4444'; inp.style.animation='shake .4s ease'; setTimeout(function(){inp.style.animation=''; inp.style.borderColor=''},500)
+  }
+}
+function goTo(id){
+  document.querySelectorAll('.session').forEach(function(s){s.classList.remove('active')});
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  updateStatus(id)
+}
+function updateStatus(id){
+  var labels=['SESIÓN 01 ACTIVA','SESIÓN 02 ACTIVA','SESIÓN 03 ACTIVA','SESIÓN 04 ACTIVA','SESIÓN 05 ACTIVA','SESIÓN 06 ACTIVA','SESIÓN 07 ACTIVA','SESIÓN 08 ACTIVA','MISIÓN COMPLETADA'];
+  var map={s0:0,s1:1,s2:2,s3:3,s4:4,s5:5,s6:6,s7:7,sfinal:8};
+  var idx=(map[id]!==undefined)?map[id]:0;
+  document.getElementById('statusText').textContent=labels[idx]||'';
+  for(var i=0;i<8;i++){
+    var seg=document.getElementById('p'+i);
+    if(!seg) continue;
+    if(i<idx) seg.className='prog-seg done';
+    else if(i===idx && idx<8) seg.className='prog-seg active';
+    else seg.className='prog-seg';
+  }
+  var percent=Math.min((idx/8)*100,100);
+  document.getElementById('meterFill').style.width=percent+'%';
+}
 function toggleHint(id){document.getElementById(id).classList.toggle('show')}
-document.querySelectorAll('.pwd-input').forEach(function(inp){inp.addEventListener('keydown',function(e){if(e.key==='Enter'){var btn=inp.parentElement.querySelector('.btn'); if(btn) btn.click()}})})
-var bgMusic=document.getElementById('bgMusic'), musicBtn=document.getElementById('musicBtn'), audioMsg=document.getElementById('audioMsg'); bgMusic.volume=.18;
-function setAudio(on){if(on){musicBtn.textContent='♪ PAUSAR AUDIO'; musicBtn.classList.add('on')} else {musicBtn.textContent='♪ ACTIVAR AUDIO'; musicBtn.classList.remove('on')}}
-async function tryPlay(){try{await bgMusic.play(); setAudio(true); audioMsg.textContent=''}catch(err){audioMsg.textContent='Pulsa el botón para activar el audio. Si no suena, revisa que musica.mp3 esté junto al archivo HTML.'; setAudio(false)}}
-musicBtn.addEventListener('click',async function(){if(bgMusic.paused) await tryPlay(); else {bgMusic.pause(); setAudio(false)}})
-bgMusic.addEventListener('error',function(){audioMsg.textContent='No se ha podido cargar musica.mp3. Súbelo al mismo directorio del HTML.'})
-window.addEventListener('load',function(){tryPlay()})
+document.querySelectorAll('.pwd-input').forEach(function(inp){
+  inp.addEventListener('keydown',function(e){
+    if(e.key==='Enter'){
+      var btn=inp.parentElement.querySelector('.btn');
+      if(btn) btn.click();
+    }
+  })
+});
+var bgMusic=document.getElementById('bgMusic');
+var musicBtn=document.getElementById('musicBtn');
+var audioMsg=document.getElementById('audioMsg');
+bgMusic.volume=.18;
+function setAudio(on){
+  if(on){musicBtn.textContent='♪ PAUSAR AUDIO'; musicBtn.classList.add('on')}
+  else {musicBtn.textContent='♪ ACTIVAR AUDIO'; musicBtn.classList.remove('on')}
+}
+async function tryPlay(){
+  try{
+    await bgMusic.play();
+    setAudio(true);
+    audioMsg.textContent='';
+  }catch(err){
+    audioMsg.textContent='Pulsa el botón para activar el audio. Si no suena, revisa que muscia.mp3 esté junto al archivo HTML.';
+    setAudio(false);
+  }
+}
+musicBtn.addEventListener('click',async function(){
+  if(bgMusic.paused) await tryPlay();
+  else {
+    bgMusic.pause();
+    setAudio(false);
+  }
+});
+bgMusic.addEventListener('error',function(){
+  audioMsg.textContent='No se ha podido cargar muscia.mp3. Súbelo al mismo directorio del HTML.';
+});
+window.addEventListener('load',function(){tryPlay()});
 </script>
 </body>
 </html>
